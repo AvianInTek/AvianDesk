@@ -18,10 +18,10 @@ export default function TicketsLists() {
                     <div className="flex items-center space-x-2">
                         <input type="text" placeholder="Search" className="w-full border border-gray-300 rounded-lg px-4 py-2 hover:border-transparent focus:border-transparent focus:ring focus:ring-blue-300" />
                         <button onClick={handleSearch} className="p-2 bg-gray-100 border rounded-lg">
-                            <img src="/search.svg" alt="search" className="w-6 h-6" />
+                            <img src="/icons/search.svg" alt="search" className="w-6 h-6" />
                         </button>
                         <button onClick={handleFilter} className="p-2 bg-gray-100 border rounded-lg">
-                            <img src="/filter.svg" alt="search" className="w-6 h-6" />
+                            <img src="/icons/filter.svg" alt="search" className="w-6 h-6" />
                         </button>
                     </div>
                     {/* Below advanced filter */}

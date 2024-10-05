@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { APP_DESC, APP_NAME } from "@/lib/constants";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -14,8 +15,14 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "SangrahDB Web Support",
-  description: "A application to create and manage support tickets for sangrahdb application.",
+  title: APP_NAME,
+  description: APP_DESC,
+  icons: [
+    {
+      url: "/logo/logo.png",
+      rel: "icon",
+    },
+  ],
 };
 
 export default function RootLayout({

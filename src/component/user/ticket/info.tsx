@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import AccountSettings from "./settings";
+import AccountSettings from "./ticketSetting";
 
 export default function TicketInfo() {
     const [expand, setExpand] = useState(false);
@@ -33,7 +33,7 @@ export default function TicketInfo() {
                 )}
                 
                 <button onClick={toggleSettings} className="p-2 bg-gray-100 border rounded-lg">
-                    <img src="/settings.svg" alt="search" className="w-6 h-6" />
+                    <img src="/icons/settings.svg" alt="search" className="w-6 h-6" />
                 </button>
             </div>
             { expand? (
@@ -102,11 +102,11 @@ export default function TicketInfo() {
 
             <div className="space-y-2">
                 <div className="flex items-center space-x-2 bg-white p-2 rounded-lg">
-                    <img src="/pdf.svg" alt="pdf" className="w-6 h-6" />
+                    <img src="/icons/pdf.svg" alt="pdf" className="w-6 h-6" />
                     <p className="text-sm text-gray-800">doc.pdf</p>
                 </div>
                 <div className="flex items-center space-x-2 bg-white p-2 rounded-lg">
-                    <img src="/pdf.svg" alt="image" className="w-6 h-6" />
+                    <img src="/icons/pdf.svg" alt="image" className="w-6 h-6" />
                     <p className="text-sm text-gray-800">doc.pdf</p>
                 </div>
             </div>

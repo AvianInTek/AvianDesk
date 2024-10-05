@@ -1,6 +1,6 @@
 "use client";
 
-import { colorTags } from "@/types/constants";
+import { colorTags } from "@/types/color";
 import { time } from "console";
 import { useState, useEffect } from "react";
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { colorTags, fileColor } from "@/types/constants";
+import { colorTags, fileColor } from "@/types/color";
 import { useState, useEffect } from "react";
 
-export default function TicketDetails({ name, subject, description, files, recentUpdate, tags }: any) {
+function TicketDetailsAvailable({ name, subject, description, files, recentUpdate, tags }: any) {
   const [timing, setTiming] = useState('');
   var sizes: string[] = [];
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function TicketDetails({ name, subject, description, files, recen
       <div className="flex items-center space-x-4">
         {files?.map((file: Array<any>, index: number) => (
           <div key={index} className={`flex items-center space-x-2 bg-red-50 p-2 rounded-lg border border-${fileColor[file[0]]}-100`}>
-            <img src={`/${file[0]}.svg`} alt={file[0]} className="w-6 h-6" />
+            <img src={`/icons/${file[0]}.svg`} alt={file[0]} className="w-6 h-6" />
             <p className="text-xs font-medium text-red-800">{file[1]} ({sizes[index]})</p>
           </div>
         ))}
@@ -83,4 +83,19 @@ export default function TicketDetails({ name, subject, description, files, recen
       </div>
     </div>
   );
+}
+
+function TicketDetailsUnavailable() {
+  return (
+    <p className="text-gray-600">Select a ticket to view details.</p>
+  )
+}
+export default function TicketDetails({ name, subject, description, files, recentUpdate, tags }: any) {
+  var component;
+  if (name) {
+    component = <TicketDetailsAvailable name={name} subject={subject} description={description} files={files} recentUpdate={recentUpdate} tags={tags} />;
+  } else {
+    component = <TicketDetailsUnavailable />;
+  }
+  return component;
 }
