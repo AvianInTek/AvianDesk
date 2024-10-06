@@ -1,4 +1,4 @@
-
+import 'server-only'
 import { User } from '@/types/auth';
 import fs from 'fs';
 import path from 'path';

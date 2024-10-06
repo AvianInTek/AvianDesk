@@ -1,5 +1,7 @@
 "use client";
 import { owner } from "@/lib/constants";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function Signin() {
@@ -13,7 +15,9 @@ export default function Signin() {
         const handleRefresh = () => {
             setVideo(Math.floor(Math.random() * owner.length));
         };
-        console.log(video);
+        if (document.cookie) {
+            redirect("/dashboard");
+        }
         window.addEventListener('load', handleRefresh);
         return () => {
             window.removeEventListener('load', handleRefresh);
@@ -35,7 +39,7 @@ export default function Signin() {
             }
         }
         try {
-            const response = await fetch(`http://localhost:8000/api/auth/signin`, {
+            const response = await fetch(`/api/auth/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,6 +48,7 @@ export default function Signin() {
             });
             const responseData: any = await response.json();
             if (response.ok && responseData.success) {
+
                 window.location.href = "/dashboard";
             } else {
                 setError(responseData.message);
@@ -74,7 +79,7 @@ export default function Signin() {
                     <div className="flex items-center justify-center flex-grow p-6 lg:w-2/3 ">
                         <div className="w-full max-w-md">
                             <h2 className="flex flex-row mb-6 text-2xl font-bold">Sign in to <span className="ml-3"> </span><img src='/logo/letter-dark.png' className='h-7 no-drag' alt='SangrahDB' /></h2>
-                            <form>
+                            <form action={submit}> {/** form */}
                                 <div className="mb-4">
                                     <label className="block mb-2 font-bold text-gray-700 text-sl"> Email </label>
                                     <input value={formData.email} onChange={handleChange} id="email" type="email" 
@@ -88,6 +93,11 @@ export default function Signin() {
                                     <input value={formData.password} onChange={handleChange} id="password" type="password" 
                                     className="w-full px-3 py-2 mb-3 leading-tight text-gray-700 border rounded-lg shadow appearance-none focus:border-indifo-500 h-14 focus:outline-none focus:ring" />
                                 </div>
+                                { error && (<div className="mb-6">
+                                    <span className="flex items-center justify-between mb-2 font-sans text-lg font-bold text-red-700">
+                                    {error}
+                                    </span>
+                                </div> )}
                                 <div>
                                     <button type="submit" className="focus:shadow-outline h-14 w-full rounded-3xl bg-[#0D0C22] px-4 py-2 font-sans font-bold text-white hover:bg-gray-800 focus:outline-none">Sign In</button>
                                 </div>
@@ -95,7 +105,7 @@ export default function Signin() {
                                     Don't have an account?<span> </span>
                                     <a href="/signup" className="font-sans text-sm text-gray-600 underline cursor-pointer">Sign up </a>
                                 </p>
-                            </form>
+                            </form> {/* form*/}
                         </div>
                     </div>
                 </div>

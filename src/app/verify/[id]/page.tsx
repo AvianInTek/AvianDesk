@@ -41,13 +41,9 @@ export default function Verify({ params }: { params: { id: string } }) {
         <>
             {completed && (
                 <div className="flex justify-center items-center h-screen flex-col">
-                    
                     <div className="w-1/2">
                         <Lottie loop={false} autoplay={true} animationData={Completed} />
                     </div>
-                    {/* <div className="w-1/2 mt-4 flex justify-center">
-                        <Lottie loop={false} autoplay={true} animationData={Celebration} />
-                    </div> */}
                 </div>
             )}
         </>

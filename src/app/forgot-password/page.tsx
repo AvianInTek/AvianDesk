@@ -3,6 +3,7 @@ import { owner } from '@/lib/constants';
 import React, { useEffect, useState } from 'react';
 
 export default function ForgotPasswordForm() {
+    const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [video, setVideo] = useState(0);
   useEffect(() => {
@@ -13,6 +14,10 @@ export default function ForgotPasswordForm() {
     return () => clearTimeout(timer);
   }, []);
   console.log(loading);
+
+  async function forgotPasswordForm() {
+
+  }
 
   return (
     <>
@@ -35,11 +40,16 @@ export default function ForgotPasswordForm() {
                 <div className="flex items-center justify-center flex-grow p-6 lg:w-2/3 ">
                     <div className="w-full max-w-md">
                         <h2 className="flex flex-row mb-6 text-2xl font-bold">Forgot password <span className="ml-3"> </span><img src='/logo/letter-dark.png' className='h-7 no-drag' alt='SangrahDB' /></h2>
-                        <form>
+                        <form action={forgotPasswordForm}>
                             <div className="mb-4">
                                 <label className="block mb-2 font-bold text-gray-700 text-sl"> Email </label>
                                 <input className="w-full px-3 py-2 leading-tight text-gray-700 border rounded-lg shadow appearance-none h-14 focus:border-indigo-500 focus:shadow-lg focus:outline-none focus:ring-2" id="email" type="email" />
                             </div>
+                            { error && (<div className="mb-6">
+                                <span className="flex items-center justify-between mb-2 font-sans text-lg font-bold text-red-700">
+                                {error}
+                                </span>
+                            </div> )}
                             <div>
                                 <button type="submit" className="focus:shadow-outline h-14 w-full rounded-3xl bg-[#0D0C22] px-4 py-2 font-sans font-bold text-white hover:bg-gray-800 focus:outline-none">Request</button>
                             </div>

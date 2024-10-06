@@ -72,7 +72,7 @@ export default function Signup() {
         <div className="flex items-center justify-center flex-grow p-6 lg:w-2/3 ">
           <div className="w-full max-w-md">
             <h2 className="flex flex-row mb-6 text-2xl font-bold">Sign up to <span className="ml-3"> </span><img src='/logo/letter-dark.png' className='h-7 no-drag' alt='SangrahDB' /></h2>
-            <div> {/**form*/}
+            <form action={submit}> {/**form*/}
               <div className="mb-4">
                 <label className="block mb-2 font-bold text-gray-700 text-sl"> Name </label>
                 <input value={formData.name} onChange={handleChange} id="name" type="text" 
@@ -113,13 +113,13 @@ export default function Signup() {
                 </span>
               </div> )}
               <div>
-                <button onClick={submit} className="focus:shadow-outline h-14 w-full rounded-3xl bg-[#0D0C22] px-4 py-2 font-sans font-bold text-white hover:bg-gray-800 focus:outline-none">Create Account</button>
+                <button type='submit' className="focus:shadow-outline h-14 w-full rounded-3xl bg-[#0D0C22] px-4 py-2 font-sans font-bold text-white hover:bg-gray-800 focus:outline-none">Create Account</button>
               </div>
               <p className="mt-4 text-sm text-center text-gray-600">
                 Already have an account?<span> </span>
                 <a href="/signin" className="font-sans text-sm text-gray-600 underline cursor-pointer">Sign in </a>
               </p>
-            </div>{/**form*/}
+            </form>{/**form*/}
           </div>
         </div>
       </div>

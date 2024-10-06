@@ -25,8 +25,7 @@ export default function Forgot({ id }: ForgotProps) {
     }, []);
     console.log(loading);
 
-    function submit(e: any) {
-        e.preventDefault();
+    async function forgotPassword(e: any) {
         var password = formData.password;
         if (password === '') {
             alert('Password is required');
@@ -58,13 +57,18 @@ export default function Forgot({ id }: ForgotProps) {
                     <div className="flex items-center justify-center flex-grow p-6 lg:w-2/3 ">
                         <div className="w-full max-w-md">
                             <h2 className="flex flex-row mb-6 text-2xl font-bold">Reset password <span className="ml-3"> </span><img src='/logo/letter-dark.png' className='h-7 no-drag' alt='SangrahDB' /></h2>
-                            <form>
+                            <form action={forgotPassword}>
                                 <div className="mb-6">
                                     <span className="flex items-center justify-between mb-2 font-sans font-bold text-gray-700 text-sl">
                                         Password
                                     </span>
                                     <input className="w-full px-3 py-2 mb-3 leading-tight text-gray-700 border rounded-lg shadow appearance-none focus:border-indifo-500 h-14 focus:outline-none focus:ring" id="password" type="password" />
                                 </div>
+                                { error && (<div className="mb-6">
+                                    <span className="flex items-center justify-between mb-2 font-sans text-lg font-bold text-red-700">
+                                    {error}
+                                    </span>
+                                </div> )}
                                 <div>
                                     <button type="submit" className="focus:shadow-outline h-14 w-full rounded-3xl bg-[#0D0C22] px-4 py-2 font-sans font-bold text-white hover:bg-gray-800 focus:outline-none">Reset Now!</button>
                                 </div>

@@ -1,8 +1,8 @@
 'use client';
-import AccountSettings from "@/component/user/ticket/ticketSetting";
-import TicketDetails from "@/component/user/ticket/details";
-import TicketInfo from "@/component/user/ticket/info";
-import TicketsLists from "@/component/user/ticket/list";
+import AccountSettings from "@/component/ticket/ticketSetting";
+import TicketDetails from "@/component/ticket/details";
+import TicketInfo from "@/component/ticket/info";
+import TicketsLists from "@/component/ticket/list";
 
 import { useState } from "react";
 
