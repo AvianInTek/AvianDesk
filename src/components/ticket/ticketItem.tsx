@@ -5,7 +5,7 @@ import { time } from "console";
 import { useState, useEffect } from "react";
 
 
-export default function TicketItem({subject, description, recentUpdate, tags}: any) {
+export default function TicketItem({id, subject, description, recentUpdate, tags, setTicketId}: any) {
     const [timesAgo, setTimesAgo] = useState('');
     const [shortDescription, setShortDescription] = useState('');
     useEffect(() => {
@@ -25,9 +25,9 @@ export default function TicketItem({subject, description, recentUpdate, tags}: a
             setShortDescription(description?.substring(0, 29) + '...');
         }
     }, [recentUpdate]);
-    
+
     return (
-        <div className="p-4 border-l-4 border-blue-500 bg-blue-50 rounded-lg mb-4">
+        <div className="p-4 border-l-4 border-blue-500 bg-blue-50 rounded-lg mb-4" onClick={(e) => setTicketId(id)}>
             <div className="flex justify-between">
                 <p className="font-medium text-sm text-gray-800">{subject}</p>
                 <p className="text-xs text-gray-500">{timesAgo}</p>
@@ -35,7 +35,7 @@ export default function TicketItem({subject, description, recentUpdate, tags}: a
             <p className="text-xs text-gray-600">{shortDescription}</p>
             <div className="flex items-center space-x-2 mt-2">
                 {tags.map((tag: string, index: number) => (
-                    <span key={index} className={`bg-${colorTags[tag]}-100 text-${colorTags[tag]}-800 text-xs font-semibold px-2 py-1 rounded-lg`}>{tag}</span>
+                    <span key={index} className={`bg-${colorTags[tag]}-200 text-${colorTags[tag]}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>{tag}</span>
                 ))}
             </div>
         </div>

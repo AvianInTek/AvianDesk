@@ -1,18 +1,39 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AccountSettings from "./ticketSetting";
 
-export default function TicketInfo() {
+export default function TicketInfo({user}: any) {
     const [expand, setExpand] = useState(false);
+    const [isSettingsVisible, setSettingsVisible] = useState(false);
+    const [userInfo, setUserInfo] = useState<any>({});
     function handleExpand(e: any) {
         setExpand(!expand);
     }
-    
-    const [isSettingsVisible, setSettingsVisible] = useState(false);
     const toggleSettings = () => {
         setSettingsVisible(!isSettingsVisible);
     };
+
+    useEffect(() => {
+        async function getUserDetails(user: string) {
+            try {
+            const response = await fetch(`/api/auth/details`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user }),
+            });
+            const responseData: any = await response.json();
+            if (response.ok && responseData.success) {
+                setUserInfo(responseData.data);
+            } 
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        getUserDetails(user);
+    });
     return (
     <>
     <AccountSettings isPopupVisible={isSettingsVisible} togglePopup={toggleSettings} />
@@ -39,7 +60,6 @@ export default function TicketInfo() {
             { expand? (
                 <div className="">
                     <button className="text-green-500 px-4 py-2 rounded-lg">Open</button>
-                    <button className="text-yellow-500 px-4 py-2 rounded-lg">In progress</button>
                     <button className="text-red-500 px-4 py-2 rounded-lg">Close</button>
                 </div>
             ): null}
@@ -47,40 +67,33 @@ export default function TicketInfo() {
         <div>
             <div className="bg-white border border-gray-200 rounded-lg p-8 font-bold">
                 <h3 className="font-bold text-xl text-gray-800 mb-3">Visitor Information</h3>
-                <div className="flex pt-4">
-                    <div className="w-4/5">
-                        <h3 className="font-bold text-gray-800 mb-3">Basic Details</h3>
+                {Object.keys(userInfo).length === 0 ? (
+                    <div className="flex pt-4">
+                        <h3 className="font-bold text-gray-800 mb-3 text-center justify-between">Select ticket...</h3>
                     </div>
-                    <div className="w-1/5">
-                        <h3 className="font-bold text-right text-blue-500 mb-3">Edit</h3>
-                    </div>
-                </div>
-                <div className="text-base font-medium space-y-2 text-gray-700">
-                    <div className="flex justify-between">
-                        <span className="text-gray-400">Email:</span>
-                        <a className="text-blue-500" href="mailto:dean.taylor@gmail.com">dean.taylor@gmail.com</a>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-400">Phone:</span>
-                        <p>Unknown</p>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-400">Location:</span>
-                        <p>Colombo <a className="text-blue-500">(View on map)</a></p>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-400">Local time:</span>
-                        <p>06:30 am (+5.30 GMT)</p>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-400">Language:</span>
-                        <p className="bg-blue-50 rounded rounded-xl px-3 p-1 text-blue-500">English</p>
-                    </div>
-                </div>
+                ): (
+                    <>
+                        <div className="flex pt-4">
+                            <div className="w-4/5">
+                                <h3 className="font-bold text-gray-800 mb-3">Basic Details</h3>
+                            </div>
+                        </div>
+                        <div className="text-base font-medium space-y-2 text-gray-700">
+                            <div className="flex justify-between">
+                                <span className="text-gray-400">Name:</span>
+                                <span>{userInfo.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-gray-400">Email:</span>
+                                <a className="text-blue-500" href="akkilcharanmg@gmail.com">{userInfo.email ? userInfo.email.substring(0, 19) : ''}</a>
+                            </div>
+                        </div>
+                    </>
+                )}
        
-                <hr className="bg-gray-200 h-0.5 mt-4 my-2 w-full" />
+                {/* <hr className="bg-gray-200 h-0.5 mt-4 my-2 w-full" /> */}
 
-                <div className="flex pt-2">
+                {/* <div className="flex pt-2">
                     <div className="w-4/5">
                         <h3 className="font-bold text-gray-800 mb-3">Device Information</h3>
                     </div>
@@ -92,7 +105,7 @@ export default function TicketInfo() {
                     <p className="items-left"><span className="text-gray-400 items-right">IP:</span> 107.168.154.199</p>
                     <p className="items-left"><span className="text-gray-400 items-right">OS:</span> Windows 11</p>
                     <p className="items-left"><span className="text-gray-400 items-right">Browser:</span> Mozilla Firefox</p>
-                </div>
+                </div> */}
             </div>
         </div>
         <div className="bg-white border border-gray-200 rounded-lg p-8">

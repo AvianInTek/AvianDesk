@@ -1,6 +1,6 @@
-import Detail from "@/component/dashboard/detail";
-import MainLayout from "@/component/dashboard/main";
-import SideNav from "@/component/dashboard/sideNav";
+import Detail from "@/components/dashboard/detail";
+import MainLayout from "@/components/dashboard/main";
+import SideNav from "@/components/dashboard/sideNav";
 
 
 export default async function Dashboard() {
@@ -9,15 +9,15 @@ export default async function Dashboard() {
         window.location.href = "/signin";
     }
     return (
-        <div className="flex h-screen bg-gray-100">
-            {/* Sidebar */}
-            <SideNav />
+        <div className="flex h-screen">
+            <div className="w-1/6 shadow-xl">
+                <SideNav />
+            </div>
+            <div className="w-5/6 bg-gray-100">
+                <MainLayout />
+            </div>
 
-            {/* Main content */}
-            <MainLayout />
-
-            {/* Right sidebar */}
-            <Detail />
+            {/* <Detail /> */}
         </div>
     );
 }

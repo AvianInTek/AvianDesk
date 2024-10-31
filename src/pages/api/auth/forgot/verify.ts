@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { email, password } = req.body as Signin;
       if (!email || !password) {
-        return res.status(400).json({ success: false, message: 'Invalid input' });
+        return res.status(400).json({ message: 'Invalid input' });
       }
       const db = await getMongoClient();
       var hashPassword = await encryptCode(password);
@@ -37,6 +37,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } else {
     // If it's not a POST request, return a method not allowed response
-    res.status(405).json({ success: false, message: 'Method Not Allowed' });
+    res.status(405).json({ message: 'Method Not Allowed' });
   }
 }

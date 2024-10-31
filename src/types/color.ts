@@ -1,11 +1,9 @@
 
 
 export const colorTags: any = {
-    'open': 'blue',
-    'high priority': 'red',
-    'sales department': 'yellow',
+    'open': 'green',
     'ignore': 'gray',
-    'closed': 'green',
+    'closed': 'sky',
 }
 
 export const fileColor: any = {

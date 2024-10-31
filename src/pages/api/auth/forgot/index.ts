@@ -7,28 +7,19 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
-      const { email, password } = req.body as Signin;
+      const { email, password } = req.body;
       if (!email || !password) {
-        return res.status(400).json({ success: false, message: 'Invalid input' });
+        return res.status(400).json({ message: 'Invalid input' });
       }
       const db = await getMongoClient();
       var hashPassword = await encryptCode(password);
       console.log(password, hashPassword);
       const result = await db.collection('users').findOne({
-        email: email,
-        password: hashPassword
+        email: email
       });
       if (!result) {
         return res.status(401).json({ success: false, message: 'Invalid credentials' });
       }
-      if (!result.verify) {
-        return res.status(401).json({ success: false, message: 'Email not verified' });
-      }
-      /** Session */
-      var encry = await encrypt(result._id.toString());
-      const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-      const session = await encryptSession({ token: encry, expiresAt });
-      res.setHeader('Set-Cookie', `session=${session}; HttpOnly; Secure; Expires=${expiresAt.toUTCString()}; SameSite=Lax; Path=/`);
       
       return res.status(201).json({ success: true });
     } catch (error) {
@@ -37,6 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } else {
     // If it's not a POST request, return a method not allowed response
-    res.status(405).json({ success: false, message: 'Method Not Allowed' });
+    res.status(405).json({ message: 'Method Not Allowed' });
   }
 }

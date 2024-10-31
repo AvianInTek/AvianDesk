@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       var { id } = req.body;
       if (!id) {
-        return res.status(400).json({ message: 'Invalid input' });
+        return res.status(400).json({ success: false, message: 'Invalid input' });
       }
       id = await decrypt(id);
       const db = await getMongoClient();
@@ -27,6 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ success: false });
     }
   } else {
-    res.status(405).json({ message: 'Method Not Allowed' });
+    res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 }

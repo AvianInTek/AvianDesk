@@ -3,7 +3,8 @@ import { useState } from "react";
 import TicketItem from "./ticketItem";
 
 
-export default function TicketsLists() {
+export default function TicketsLists({data, create, setCreate, setTicketId}: any) {
+
     const [filter, setFilter] = useState(false);
     const [search, setSearch] = useState("");
     function handleSearch(e: any) {
@@ -29,12 +30,29 @@ export default function TicketsLists() {
                         <button className="text-blue-500 font-medium">All</button>
                         <button className="text-gray-500">Open</button>
                         <button className="text-gray-500">Closed</button>
-                        <button className="text-gray-500">High Priority</button>
-                        <button className="text-gray-500">Low Priority</button>
                     </div>
 
+                    
                     <div className="mt-4">
-                        <TicketItem subject='This is the subject' description='This will be the deascription of the message' recentUpdate={`2024-10-03T01:00:00.000${local}`} tags={['open', 'high priority']}/>
+                        <div onClick={(e)=>{setCreate(!create)}} className="p-4 border-dashed border-2 border-green-600 bg-green-400 rounded-lg mb-4 cursor-pointer">
+                            <div className="flex items-center justify-center space-x-2">
+                                <img src="/icons/plus-circle.svg" alt="create" className="w-6 h-6" />
+                                <p className="font-medium text-lg text-white mb-1">Create ticket</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-4">
+                        {data.map((ticket: any) => (
+                            <TicketItem
+                                key={ticket._id}
+                                id={ticket._id}
+                                subject={ticket.subject}
+                                description={ticket.description}
+                                recentUpdate={ticket.recentUpdate}
+                                tags={ticket.tags}
+                                setTicketId={setTicketId}
+                            />
+                        ))}
                     </div>
             </div>
     );

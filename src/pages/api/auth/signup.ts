@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { name, email, password } = req.body as User;
       if (!name || !email || !password) {
-        return res.status(400).json({ message: 'Invalid input' });
+        return res.status(400).json({ success: false, message: 'Invalid input' });
       }
       const db = await getMongoClient();
       var hashPassword = await encryptCode(password);
@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         email: email,
       });
       if (result) {
-        return res.status(409).json({ message: 'Email already exists' });
+        return res.status(409).json({ success: false, message: 'Email already exists' });
       }
       console.log(password, hashPassword);
       result = await db.collection('users').insertOne({
@@ -41,10 +41,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(201).json({ success: true });
     } catch (error) {
       console.error('Error saving user data:', error);
-      return res.status(500).json({ success: false });
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
   } else {
     // If it's not a POST request, return a method not allowed response
-    res.status(405).json({ message: 'Method Not Allowed' });
+    res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 }
