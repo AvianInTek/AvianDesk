@@ -3,7 +3,6 @@
 import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
 import Completed from "@/assets/lottie/completed.json";
-import Celebration from "@/assets/lottie/celebration.json";
 
 export default function Verify({ params }: { params: { id: string } }) {
     var id = decodeURIComponent(params.id);
@@ -20,7 +19,6 @@ export default function Verify({ params }: { params: { id: string } }) {
                     body: JSON.stringify({ id: id }),
                 });
                 const responseData: any = await response.json();
-                console.log(responseData);
                 if (response.ok && responseData.success) {
                     setCompleted(true);
                     // after 5 seconds, redirect to login page

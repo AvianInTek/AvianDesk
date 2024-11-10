@@ -13,7 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       const db = await getMongoClient();
       var hashPassword = await encryptCode(password);
-      console.log(password, hashPassword);
       const result = await db.collection('users').findOne({
         email: email,
         password: hashPassword

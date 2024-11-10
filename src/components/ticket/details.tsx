@@ -53,7 +53,6 @@ function TicketDetailsAvailable({ data }: any) {
       }
       return size.toFixed(2) + ' ' + units[unit];
     }
-    console.log(data.files);
     const newSizes = data.files?.map((file: Array<any>) => convertSize(file[2])) || [];
     setSizes(newSizes);
   }, [data.recentUpdate, data.files]);

@@ -21,7 +21,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (result) {
         return res.status(409).json({ success: false, message: 'Email already exists' });
       }
-      console.log(password, hashPassword);
       result = await db.collection('users').insertOne({
         name: name,
         email: email,

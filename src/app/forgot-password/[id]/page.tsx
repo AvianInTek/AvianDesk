@@ -23,7 +23,6 @@ export default function Forgot({ id }: ForgotProps) {
 
         return () => clearTimeout(timer); // Clear the timer when the component unmounts
     }, []);
-    console.log(loading);
 
     async function forgotPassword(e: any) {
         var password = formData.password;

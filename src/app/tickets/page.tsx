@@ -1,6 +1,6 @@
 'use client';
 import { useState } from "react";
-import AccountSettings from "@/components/ticket/ticketSetting";
+import AccountSettings from "@/components/settings/settings";
 import TicketDetails from "@/components/ticket/details";
 import TicketsLists from "@/components/ticket/list";
 import TicketCreate from "@/components/ticket/create";
@@ -10,6 +10,7 @@ import SideNav from "@/components/dashboard/sideNav";
 
 export default function TicketsPage() {
     const [create, setCreate] = useState(false);
+    const [settings, setSettings] = useState(false);
     const [ticketId, setTicketId] = useState('');
     var data = [{
         _id: '5xhtyh',
@@ -37,24 +38,28 @@ export default function TicketsPage() {
         tags: ['open', 'ignore']
     }]
     return (
+        <>
+        {create && (
+            <TicketCreate create={create} setCreate={setCreate} />  
+        )}
+        { 
+            <AccountSettings settings={settings} setSettings={setSettings} />
+        }
         <div className="flex h-screen">
+            
             {/* Sidebar */}
             <div className="w-1/6 shadow-xl">
-                <SideNav />
+                <SideNav create={create} setCreate={setCreate} settings={settings} setSettings={setSettings} />
             </div>
-            <AccountSettings />
-            <div className="w-5/6 flex gap-5 py-8 px-10 bg-gray-100 h-screen">
+            <div className="w-5/6 flex gap-5 py-8 px-10 bg-gray-200 h-screen">
                 <div className="w-1/3 bg-white rounded-lg shadow-lg p-4">
-                    <TicketsLists create={create} setCreate={setCreate} data={data} setTicketId={setTicketId} />
+                    <TicketsLists data={data} setTicketId={setTicketId} />
                 </div>
                 <div className="w-2/3 bg-white rounded-lg shadow-lg p-6 sticky top-0">
-                    { create ? (
-                        <TicketCreate />
-                    ) : (
-                        ticketId ? (
-                            <TicketDetails data={data} ticketId={ticketId}  />
-                        ): (<div>Please select a ticket to view details.</div>)
-                    )}
+                    { ticketId ? (
+                        <TicketDetails data={data} ticketId={ticketId}  />
+                    ): (<div>Please select a ticket to view details.</div>)
+                    }
                 </div>
                 
                 {/* <div className="w-1/4 sticky top-0 xl:block hidden">
@@ -62,5 +67,6 @@ export default function TicketsPage() {
                 </div> */}
             </div>
         </div>
+        </>
     );
 }

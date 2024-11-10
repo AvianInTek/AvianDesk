@@ -3,7 +3,7 @@ import { useState } from "react";
 import TicketItem from "./ticketItem";
 
 
-export default function TicketsLists({data, create, setCreate, setTicketId}: any) {
+export default function TicketsLists({data, setTicketId}: any) {
 
     const [filter, setFilter] = useState(false);
     const [search, setSearch] = useState("");
@@ -34,12 +34,12 @@ export default function TicketsLists({data, create, setCreate, setTicketId}: any
 
                     
                     <div className="mt-4">
-                        <div onClick={(e)=>{setCreate(!create)}} className="p-4 border-dashed border-2 border-green-600 bg-green-400 rounded-lg mb-4 cursor-pointer">
+                        {/* <div onClick={(e)=>{setCreate(!create)}} className="p-4 border-dashed border-2 border-green-600 bg-green-400 rounded-lg mb-4 cursor-pointer">
                             <div className="flex items-center justify-center space-x-2">
                                 <img src="/icons/plus-circle.svg" alt="create" className="w-6 h-6" />
                                 <p className="font-medium text-lg text-white mb-1">Create ticket</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="mt-4">
                         {data.map((ticket: any) => (

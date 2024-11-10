@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 
-export default function sideNav() {
+
+export default function sideNav({create, setCreate, settings, setSettings}: any) {
     return (
         <div className="bg-white p-6">
             <div className="flex items-center space-x-4">
@@ -9,6 +11,13 @@ export default function sideNav() {
                 <div>
                     <h2 className="font-semibold">Akkil M G</h2>
                     <p className="text-sm text-green-500">Online</p>
+                </div>
+            </div>
+
+            <div onClick={(e)=>{setCreate(true)}} className="mt-8 p-2 border-dashed border-2 border-green-600 bg-green-400 rounded-lg mb-4 cursor-pointer">
+                <div className="flex items-center justify-center space-x-2">
+                    <img src="/icons/plus-circle.svg" alt="create" className="w-6 h-6" />
+                    <p className="font-medium text-lg text-white mb-1">Create ticket</p>
                 </div>
             </div>
 
@@ -35,12 +44,12 @@ export default function sideNav() {
                 <h4 className="text-gray-400">Profile & Settings</h4>
                 <ul className="mt-4">
                     <li className="mb-4">
-                        <a href="#" className="flex items-center space-x-2 text-gray-600 hover:text-purple-600">
+                        <a href="/profile" className="flex items-center space-x-2 text-gray-600 hover:text-purple-600">
                             <img src="/icons/profile.svg" className="h-4" />
                             <span className="text-base">Profile</span>
                         </a>
                     </li>
-                    <li className="mb-4">
+                    <li onClick={(e)=>setSettings(true)} className="mb-4">
                         <a href="#" className="flex items-center space-x-2 text-gray-600 hover:text-purple-600">
                             <img src="/icons/settings.svg" className="h-4" />
                             <span className="text-base">Settings</span>
