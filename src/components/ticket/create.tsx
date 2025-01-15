@@ -23,7 +23,7 @@ export default function TicketCreate({ create, setCreate }: any) {
     //     }
     // } 
     return (
-        <div className={`fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 ${create ? 'block': 'hidden'}`}>
+        <div className={`fixed inset-0 bg-gray-800 w-full bg-opacity-80 flex items-center justify-center z-50 px-4 ${create ? 'block': 'hidden'}`} style={{ zIndex: 1000 }}>
             <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
                 <form className="overflow-auto" > {/** action={createTicket}> */} 
                     <div className="flex flex-col items-end">

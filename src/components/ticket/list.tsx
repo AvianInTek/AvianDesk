@@ -3,7 +3,7 @@ import { useState } from "react";
 import TicketItem from "./ticketItem";
 
 
-export default function TicketsLists({data, setTicketId}: any) {
+export default function TicketsLists({data, setTicketId, isMobileMenuOpen, setIsMobileMenuOpen}: any) {
 
     const [filter, setFilter] = useState(false);
     const [search, setSearch] = useState("");
@@ -17,6 +17,9 @@ export default function TicketsLists({data, setTicketId}: any) {
     return (
             <div className="flex flex-col">
                     <div className="flex items-center space-x-2">
+                        <button className="focus:outline-none p-2 px-3 bg-gray-100 border rounded-lg" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                            <img src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"} alt="Menu Toggle" className="h-6 w-6" />
+                        </button>
                         <input type="text" placeholder="Search" className="w-full border border-gray-300 rounded-lg px-4 py-2 hover:border-transparent focus:border-transparent focus:ring focus:ring-blue-300" />
                         <button onClick={handleSearch} className="p-2 bg-gray-100 border rounded-lg">
                             <img src="/icons/search.svg" alt="search" className="w-6 h-6" />

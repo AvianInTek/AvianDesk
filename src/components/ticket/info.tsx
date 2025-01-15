@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import AccountSettings from "./ticketSetting";
+import AccountSettings from "../settings/settings";
 
 export default function TicketInfo({user}: any) {
     const [expand, setExpand] = useState(false);

@@ -22,7 +22,8 @@ export default function TicketItem({id, subject, description, recentUpdate, tags
             }
         }
         if (description) {
-            setShortDescription(description?.substring(0, 29) + '...');
+            // setShortDescription(description?.substring(0, 29) + '...');
+            setShortDescription(description);
         }
     }, [recentUpdate]);
 
@@ -32,7 +33,7 @@ export default function TicketItem({id, subject, description, recentUpdate, tags
                 <p className="font-medium text-sm text-gray-800">{subject}</p>
                 <p className="text-xs text-gray-500">{timesAgo}</p>
             </div>
-            <p className="text-xs text-gray-600">{shortDescription}</p>
+            <p className="line-clamp-1 text-xs text-gray-600">{shortDescription}</p>
             <div className="flex items-center space-x-2 mt-2">
                 {tags.map((tag: string, index: number) => (
                     <span key={index} className={`bg-${colorTags[tag]}-200 text-${colorTags[tag]}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>{tag}</span>

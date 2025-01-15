@@ -59,7 +59,14 @@ function TicketDetailsAvailable({ data }: any) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-gray-800">{data.subject}</h2>
+        <div className="flex items-center space-x-2">
+            <button onClick={() => window.location.href = '/tickets'} className="focus:outline-none p-1 mt-1">
+            <img src="/icons/back.svg" alt="Back" className="w-8 h-8" />
+            </button>
+          <h2 className="text-xl font-semibold text-gray-800">
+            {data.subject}
+          </h2>
+        </div>
         <div className="flex space-x-2 mt-2">
           {data.tags?.map((tag: string, index: number) => (
             <span key={index} className={`bg-${colorTags[tag]}-200 text-${colorTags[tag]}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>{tag}</span>

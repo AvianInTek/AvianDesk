@@ -9,7 +9,7 @@ import TicketCreate from "@/components/ticket/create";
 import { useState } from "react";
 
 
-export default async function Dashboard() {
+export default function Dashboard() {
     const [create, setCreate] = useState(false);
     const [settings, setSettings] = useState(false);
     const auth = true;
@@ -25,10 +25,10 @@ export default async function Dashboard() {
             <AccountSettings settings={settings} setSettings={setSettings} />
         }
         <div className="flex h-screen">
-            <div className="w-1/6 shadow-xl">
+            <div className="xl:w-1/5 lg:w-1/4 w-1/3 shadow-xl">
                 <SideNav create={create} setCreate={setCreate} settings={settings} setSettings={setSettings} />
             </div>
-            <div className="w-5/6 bg-gray-200">
+            <div className="xl:w-4/5 lg:w-3/4 w-2/3 bg-gray-200">
                 <MainLayout />
             </div>
 
