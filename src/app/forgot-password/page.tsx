@@ -67,9 +67,9 @@ export default function ForgotPasswordForm() {
                             <a href={`https://dribbble.com/${owner[video]}`} className="font-bold text-center text-white" style={{ position: 'absolute', bottom: 0, width: '100%', marginBottom: '20px' }}>@{owner[video]}</a>
                         </div>
                     </div>
-                    <div className="flex items-center justify-center flex-grow p-6 lg:w-2/3 ">
+                    <div className="flex items-center justify-center flex-grow p-6 lg:w-2/3 h-screen lg:h-auto pb-10">
                         <div className="w-full max-w-md">
-                            <h2 className="flex flex-row mb-6 text-2xl font-bold">Forgot password <span className="ml-3"> </span><img src='/logo/letter-dark.png' className='h-7 no-drag' alt='SangrahDB' /></h2>
+                            <h2 className="flex flex-row mb-6 text-2xl font-bold">Forgot password <span className="ml-3"> </span><img src='/logo/letter-dark.png' className='h-7 no-drag hidden lg:block' alt='SangrahDB' /></h2>
                             <form action={forgotPasswordForm}>
                                 <div className="mb-4">
                                     <label className="block mb-2 font-bold text-gray-700 text-sl"> Email </label>

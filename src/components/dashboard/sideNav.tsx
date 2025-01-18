@@ -6,10 +6,7 @@ export default function SideNav({ create, setCreate, settings, setSettings, isMo
 
             {/* Mobile Menu */}
             <div
-                className={`sm:hidden bg-white p-6 transition-transform duration-300 ${
-                    isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-                } absolute z-50 top-0 left-0 h-full w-3/4 shadow-lg`}
-            >
+                className={`sm:hidden bg-white p-6 transition-transform duration-300 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"} absolute z-50 top-0 left-0 h-full w-3/4 shadow-lg`}>
                 <MenuContent
                     create={create}
                     setCreate={setCreate}
@@ -44,7 +41,7 @@ function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenu
                         <p className="text-sm text-green-500">Online</p>
                     </div>
                 </div>
-                <button className="focus:outline-none font-semibold p-1 bg-gray-100" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                <button className="focus:outline-none font-semibold p-1 bg-gray-100 sm:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     <img src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"} alt="Toggle Menu" className="h-4 w-4" />
                 </button>
             </div>

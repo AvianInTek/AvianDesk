@@ -22,6 +22,7 @@ export default function TicketCreate({ create, setCreate }: any) {
     //         setCreate(false);
     //     }
     // } 
+    
     return (
         <div className={`fixed inset-0 bg-gray-800 w-full bg-opacity-80 flex items-center justify-center z-50 px-4 ${create ? 'block': 'hidden'}`} style={{ zIndex: 1000 }}>
             <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">

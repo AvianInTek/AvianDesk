@@ -1,10 +1,8 @@
 "use client";
 
-
 import { useEffect, useState } from 'react';
 
-
-export default function MainLayout() {
+export default function MainLayout({ isMobileMenuOpen, setIsMobileMenuOpen }: any) {
     const stats: any[] = [
         { label: 'Users', count: 12, suffix: 'k+' },
         { label: 'Opened', count: 84, suffix: '+' },
@@ -23,40 +21,47 @@ export default function MainLayout() {
 
             let currentCount = 0;
             const interval = setInterval(() => {
-            currentCount += increment;
-            if (currentCount >= stat.count) {
-                clearInterval(interval);
-                currentCount = stat.count;
-            }
-            setDisplayCounts((prev) => {
-                const updatedCounts = [...prev];
-                updatedCounts[index] = currentCount;
-                return updatedCounts;
-            });
+                currentCount += increment;
+                if (currentCount >= stat.count) {
+                    clearInterval(interval);
+                    currentCount = stat.count;
+                }
+                setDisplayCounts((prev) => {
+                    const updatedCounts = [...prev];
+                    updatedCounts[index] = currentCount;
+                    return updatedCounts;
+                });
             }, 10);
         });
     }, []);
+
     return (
         <div className="flex-1 p-6">
-            <header className="flex items-center justify-between">
-                <h1 className="text-3xl font-semibold">Welcome to SangrahDB.</h1>
-                <div className="relative">
-                    <input type="text" className="bg-gray-100 border border-gray-300 rounded-full py-2 px-4" placeholder="Search Dashboard"/>
-                    <span className="absolute top-0 right-0 p-2 pr-4">
-                        {/* <i className="icon-search" /> */}
-                        <img src='/icons/search.svg' className='h-6' />
-                    </span>
+            <header className="flex flex-col sm:flex-row items-center justify-between">
+                <h1 className="text-3xl font-semibold mb-4 sm:mb-0">Welcome to SangrahDB.</h1>
+                <div className="relative w-full sm:w-auto">
+                    <div className="flex items-center space-x-2">
+                        <button className="focus:outline-none p-2 pl-3 border rounded-lg sm:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                            <img src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"} alt="Menu Toggle" className="h-6 w-6" />
+                        </button>
+                        <div className="relative w-full sm:w-auto">
+                            <input type="text" className="bg-gray-100 border border-gray-300 rounded-full py-2 px-4 w-full sm:w-auto" placeholder="Search Dashboard" />
+                            <span className="absolute top-0 right-0 p-2 pr-4">
+                                <img src="/icons/search.svg" className="h-6" alt="Search" />
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            <div className='p-6 my-6 bg-yellow-100 rounded-xl shadow-md'>
-                <div className='text-center py-4 rounded-lg'>
+            <div className="p-6 my-6 bg-yellow-100 rounded-xl shadow-md">
+                <div className="text-center py-4 rounded-lg">
                     <h2 className="text-2xl font-bold">Welcome to the Dashboard!</h2>
                     <p className="mt-2">Here you can manage your tasks and view statistics.</p>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                 {/* Task Cards */}
                 <div className="p-6 bg-yellow-100 rounded-xl shadow-md">
                     <h3 className="text-lg font-semibold">Support Team</h3>
@@ -69,20 +74,19 @@ export default function MainLayout() {
                 </div>
                 <div className="p-6 bg-purple-100 rounded-xl shadow-md">
                     <h3 className="text-lg font-semibold">Statistic</h3>
-                    <div className="mt-4 grid grid-cols-4 gap-8">
+                    <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8">
                         {stats.map((stat, index) => (
-                        <div key={index} className="flex flex-col items-center">
-                            <span className="text-2xl font-bold">
-                            {displayCounts[index]}
-                            {stat.suffix}
-                            </span>
-                            <span className="text-sm text-gray-500">{stat.label}</span>
-                        </div>
+                            <div key={index} className="flex flex-col items-center">
+                                <span className="text-2xl font-bold">
+                                    {displayCounts[index]}
+                                    {stat.suffix}
+                                </span>
+                                <span className="text-sm text-gray-500">{stat.label}</span>
+                            </div>
                         ))}
                     </div>
                 </div>
             </div>
-            
         </div>
     );
 }

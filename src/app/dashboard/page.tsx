@@ -12,6 +12,7 @@ import { useState } from "react";
 export default function Dashboard() {
     const [create, setCreate] = useState(false);
     const [settings, setSettings] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const auth = true;
     if (!auth) {
         window.location.href = "/signin";
@@ -25,11 +26,11 @@ export default function Dashboard() {
             <AccountSettings settings={settings} setSettings={setSettings} />
         }
         <div className="flex h-screen">
-            <div className="xl:w-1/5 lg:w-1/4 w-1/3 shadow-xl">
-                <SideNav create={create} setCreate={setCreate} settings={settings} setSettings={setSettings} />
+            <div className="2xl:w-1/5 xl:w-1/5 md:w-1/4 shadow-xl">
+                <SideNav create={create} setCreate={setCreate} settings={settings} setSettings={setSettings} isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
             </div>
-            <div className="xl:w-4/5 lg:w-3/4 w-2/3 bg-gray-200">
-                <MainLayout />
+            <div className="2xl:w-4/5 xl:w-4/5 md:w-3/4 w-full flex gap-5 py-4 px-4 bg-gray-200 h-screen justify-center md:justify-start">
+                <MainLayout isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
             </div>
 
             {/* <Detail /> */}
