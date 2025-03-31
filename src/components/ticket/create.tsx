@@ -1,19 +1,21 @@
 "use client";
 
 import { basicGrievances } from "@/types/grievances";
+import { allProducts } from "@/types/products";
 import { useState } from "react";
 
 export default function TicketCreate({ create, setCreate }: any) {
-    const [title, setTitle] = useState('');
+    const [subject, setSubject] = useState('');
     const [description, setDescription] = useState('');
     const [attachment, setAttachment] = useState('');
+
     // const createTicket = async (e: any) => {
     //     e.preventDefault();
-    //     let title = e.target.title.value;
+    //     let subject = e.target.subject.value;
     //     let description = e.target.description.value;
-    //     if (title && description) {
+    //     if (subject && description) {
     //         let data = {
-    //             title: title,
+    //             subject: subject,
     //             description: description
     //         }
     //         console.log(data);
@@ -37,21 +39,25 @@ export default function TicketCreate({ create, setCreate }: any) {
                     </div>
 
                     <div>
-                        <label htmlFor="title" className="sr-only">Title</label>
-                        <input type="text" id="title" placeholder="Enter a title" onChange={e => setTitle(e.target.value)}
+                        <label htmlFor="subject" className="sr-only">subject</label>
+                        <input type="text" id="subject" placeholder="Enter a subject" onChange={e => setSubject(e.target.value)}
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-300 overflow-x-auto"/>
 
                         <div className="flex space-x-4 mt-4 overflow-auto">
-                            <select className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-100 w-full overflow-x-auto">
+                            <select className="flex items-center px-2 py-2 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-100 w-full overflow-x-auto">
                                 {basicGrievances.map((grievance: string, index: number) => (
                                     <option key={index} value={grievance}>
                                         {grievance}
                                     </option>
                                 ))}
                             </select>
-                            <button type="button" className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-100">
-                                <img src="/icons/clip.svg" className="h-5 w-5 pr-2" /> <span className="pr-2">Attachment</span>
-                            </button>
+                            <select className="flex items-center px-2 py-2 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-100 w-1/2 overflow-x-auto">
+                                {allProducts.map((product: string, index: number) => (
+                                    <option key={index} value={product}>
+                                        {product}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         
                         <label htmlFor="description" className="sr-only">Description</label>
@@ -72,6 +78,20 @@ export default function TicketCreate({ create, setCreate }: any) {
                             </textarea>
                         </div>
                     </div>
+                    
+                    <div className="flex space-x-4 mt-4 overflow-auto">
+                        <select className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-100 w-full overflow-x-auto">
+                            {basicGrievances.map((grievance: string, index: number) => (
+                                <option key={index} value={grievance}>
+                                    {grievance}
+                                </option>
+                            ))}
+                        </select>
+                        <button type="button" className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-100">
+                            <img src="/icons/clip.svg" className="h-5 w-5 pr-2 -ml-2" /> <span className="pr-2">Attachment</span>
+                        </button>
+                    </div>
+                        
                     <div className="flex justify-end mt-4 w-full">
                         <button type="button" className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 w-full">Create</button>
                     </div>

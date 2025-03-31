@@ -9,6 +9,7 @@ import { useState } from "react";
 export default function ProfileCard() {
     const [create, setCreate] = useState(false);
     const [settings, setSettings] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const name = "Akkil M G";
     const username = "AkkilMG";
     const tickets = '1,234';
@@ -24,15 +25,19 @@ export default function ProfileCard() {
         <div className="flex h-screen">
             
             {/* Sidebar */}
-            <div className="w-1/6 shadow-xl">
-                <SideNav create={create} setCreate={setCreate} settings={settings} setSettings={setSettings} />
+            <div className="2xl:w-1/5 xl:w-1/5 md:w-1/4 shadow-xl">
+                <SideNav create={create} setCreate={setCreate} settings={settings} setSettings={setSettings} isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
             </div>
-            <div className="w-5/6 p-12 mx-auto bg-gray-200 shadow-lg">
+            <div className="2xl:w-4/5 xl:w-4/5 md:w-3/4 p-12 mx-auto bg-gray-200 shadow-lg">
                 <div className="rounded-lg bg-white">
                     <div className="relative h-40">
+                        <div className="absolute top-2 left-2">
+                            <button className="focus:outline-none p-2 text-white border border-white shadow-lg rounded-lg sm:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                                <img src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"} alt="Menu Toggle" className="h-6 w-6" />
+                            </button>
+                        </div>
                         <img src="https://4kwallpapers.com/images/wallpapers/macos-big-sur-apple-layers-fluidic-colorful-wwdc-stock-3840x1080-1455.jpg"
                             alt="Background Banner" className="w-full h-full object-cover rounded-t-lg" width={600} height={160} />
-                        
                         {/* Profile Image */}
                         <div className="absolute -bottom-12 left-6">
                             <img src="https://github.com/akkilmg.png" 
