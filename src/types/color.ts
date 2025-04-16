@@ -4,6 +4,11 @@ export const colorTags: any = {
     'open': 'green',
     'ignore': 'gray',
     'closed': 'sky',
+    
+    'avianintek': 'orange',
+    'picdb': 'orange',
+    'picdb-docs': 'orange',
+    'picdb-api': 'orange'
 }
 
 export const fileColor: any = {

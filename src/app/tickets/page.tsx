@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AccountSettings from "@/components/settings/settings";
 import TicketDetails from "@/components/ticket/details";
 import TicketsLists from "@/components/ticket/list";
@@ -15,31 +15,25 @@ export default function TicketsPage() {
     const [ticketId, setTicketId] = useState('');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    var data = [{
-        _id: '5xhtyh',
-        user: 'akkil',
-        subject: 'Akkil: This is the subject',
-        description: 'Akkil: This will be the deascription of the message.',
-        files: [['pdf', 'Test.pdf', 123456, '']],
-        recentUpdate: '2024-10-03T01:00:00.000',
-        tags: ['open', 'ignore']
-    }, {
-        _id: 'nfjn37',
-        user: 'saiesh',
-        subject: 'Saiesh: This is the subject',
-        description: 'Saiesh: This will be the deascription of the message',
-        files: [['pdf', 'Test.pdf', 123456, '']],
-        recentUpdate: '2024-10-03T01:00:00.000',
-        tags: ['open', 'ignore']
-    }, {
-        _id: '0nduw3',
-        user: 'srujan',
-        subject: 'Srujan: This is the subject',
-        description: 'Srujan: This will be the deascription of the message',
-        files: [['pdf', 'Test.pdf', 123456, '']],
-        recentUpdate: '2024-10-03T01:00:00.000',
-        tags: ['open', 'ignore']
-    }]
+
+    const [data, setData] = useState(null);
+
+    const fetchTickets = async () => {
+        const response = await fetch('/api/dashboard/tickets', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        });
+        const data = await response.json();
+        setData(data.tickets);
+    }
+
+    useEffect(() => {
+        fetchTickets();
+    }, []);
+    
     return (
         <>
         {create && (

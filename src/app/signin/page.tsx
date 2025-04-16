@@ -1,6 +1,5 @@
 "use client";
 import { owner } from "@/lib/constants";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -48,7 +47,6 @@ export default function Signin() {
             });
             const responseData: any = await response.json();
             if (response.ok && responseData.success) {
-
                 window.location.href = "/dashboard";
             } else {
                 setError(responseData.message);

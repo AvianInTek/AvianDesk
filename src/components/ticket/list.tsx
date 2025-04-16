@@ -45,13 +45,13 @@ export default function TicketsLists({data, setTicketId, isMobileMenuOpen, setIs
                         </div> */}
                     </div>
                     <div className="mt-4">
-                        {data.map((ticket: any) => (
+                        {data && data.map((ticket: any) => (
                             <TicketItem
                                 key={ticket._id}
                                 id={ticket._id}
                                 subject={ticket.subject}
                                 description={ticket.description}
-                                recentUpdate={ticket.recentUpdate}
+                                createdAt={ticket.createdAt}
                                 tags={ticket.tags}
                                 setTicketId={setTicketId}
                             />

@@ -5,13 +5,13 @@ import { time } from "console";
 import { useState, useEffect } from "react";
 
 
-export default function TicketItem({id, subject, description, recentUpdate, tags, setTicketId}: any) {
+export default function TicketItem({id, subject, description, createdAt, tags, setTicketId}: any) {
     const [timesAgo, setTimesAgo] = useState('');
     const [shortDescription, setShortDescription] = useState('');
     useEffect(() => {
-        if (recentUpdate) {
+        if (createdAt) {
             const currentTime = new Date();
-            const updatedTime = new Date(recentUpdate);
+            const updatedTime = new Date(createdAt);
             const diff = currentTime.getTime() - updatedTime.getTime();
             if(diff < 3600000) {
                 setTimesAgo(Math.floor(diff / 60000) + ' mins ago');
@@ -25,7 +25,7 @@ export default function TicketItem({id, subject, description, recentUpdate, tags
             // setShortDescription(description?.substring(0, 29) + '...');
             setShortDescription(description);
         }
-    }, [recentUpdate]);
+    }, [createdAt]);
 
     return (
         <div className="p-4 border-l-4 border-blue-500 bg-blue-50 rounded-lg mb-4" onClick={(e) => setTicketId(id)}>
@@ -35,9 +35,15 @@ export default function TicketItem({id, subject, description, recentUpdate, tags
             </div>
             <p className="line-clamp-1 text-xs text-gray-600">{shortDescription}</p>
             <div className="flex items-center space-x-2 mt-2">
-                {tags.map((tag: string, index: number) => (
-                    <span key={index} className={`bg-${colorTags[tag]}-200 text-${colorTags[tag]}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>{tag}</span>
-                ))}
+                {tags.map((tag: string, index: number) => {
+                    const color = colorTags[tag] || 'yellow';
+                    return (
+                        <span key={index} 
+                            className={`bg-${color}-200 text-${color}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>
+                            {tag}
+                        </span>
+                    );
+                })}
             </div>
         </div>
     )

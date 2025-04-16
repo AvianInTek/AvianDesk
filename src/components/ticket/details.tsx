@@ -8,8 +8,8 @@ function TicketDetailsAvailable({ data }: any) {
   var [sizes, setSizes] = useState([]);
   const [userInfo, setUserInfo] = useState<any>({});
   useEffect(() => {
-    function convertTime(recentUpdate: string) {
-      let date = new Date(recentUpdate);
+    function convertTime(createdAt: string) {
+      let date = new Date(createdAt);
       let day = date.getDate();
       let month = date.toLocaleString('default', { month: 'long' });
       let year = date.getFullYear();
@@ -23,7 +23,7 @@ function TicketDetailsAvailable({ data }: any) {
       let strDate = `${day}th of ${month} ${year}`;
       setTiming(strDate + ' at ' + strTime);
     }
-    convertTime(data.recentUpdate);
+    convertTime(data.createdAt);
     
     async function getUserDetails(user: string) {
       // fetch data from the server /user/details/:user
@@ -55,7 +55,7 @@ function TicketDetailsAvailable({ data }: any) {
     }
     const newSizes = data.files?.map((file: Array<any>) => convertSize(file[2])) || [];
     setSizes(newSizes);
-  }, [data.recentUpdate, data.files]);
+  }, [data.createdAt, data.files]);
   return (
     <div className="space-y-6">
       <div>
@@ -69,8 +69,12 @@ function TicketDetailsAvailable({ data }: any) {
         </div>
         <div className="flex space-x-2 mt-2">
           {data.tags?.map((tag: string, index: number) => (
-            <span key={index} className={`bg-${colorTags[tag]}-200 text-${colorTags[tag]}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>{tag}</span>
-          ))}
+            <span 
+              key={index} 
+              className={`bg-${colorTags[tag] || 'yellow'}-200 text-${colorTags[tag] || 'yellow'}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}
+            >
+              {tag}
+            </span>))}
         </div>
       </div>
 
