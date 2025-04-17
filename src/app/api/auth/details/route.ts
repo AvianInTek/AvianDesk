@@ -25,7 +25,25 @@ export async function GET(request: Request) {
           headers: { 'Content-Type': 'application/json' }
         });
       }
-      return new Response(JSON.stringify({ success: true, admin: check.admin ? check.admin : false }), {
+
+      const ticketStats = await db.collection('tickets').aggregate([
+        { $match: { user: data } },
+        {
+          $group: {
+            _id: null,
+            totalTickets: { $sum: 1 },
+            closedTickets: {
+              $sum: {
+                $cond: [{ $eq: ["$status", "closed"] }, 1, 0]
+              }
+            }
+          }
+        }
+      ]).toArray();
+
+      check.tickets = ticketStats[0]?.totalTickets || 0;
+      check.closedTickets = ticketStats[0]?.closedTickets || 0;
+      return new Response(JSON.stringify({ success: true, details: check }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });

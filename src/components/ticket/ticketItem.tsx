@@ -36,10 +36,9 @@ export default function TicketItem({id, subject, description, createdAt, tags, s
             <p className="line-clamp-1 text-xs text-gray-600">{shortDescription}</p>
             <div className="flex items-center space-x-2 mt-2">
                 {tags.map((tag: string, index: number) => {
-                    const color = colorTags[tag] || 'yellow';
                     return (
                         <span key={index} 
-                            className={`bg-${color}-200 text-${color}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>
+                            className={`${colorTags[tag]? 'bg-'+colorTags[tag]+'-200' : 'bg-yellow-200'} ${colorTags[tag]? 'text-'+colorTags[tag]+'-600' : 'text-yellow-600'} text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>
                             {tag}
                         </span>
                     );

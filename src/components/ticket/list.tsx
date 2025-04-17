@@ -31,7 +31,7 @@ export default function TicketsLists({data, setTicketId, isMobileMenuOpen, setIs
                     {/* Below advanced filter */}
                     <div className="flex items-center space-x-2 mt-4">
                         <button className="text-blue-500 font-medium">All</button>
-                        <button className="text-gray-500">Open</button>
+                        <button className="text-gray-500 ">Open</button>
                         <button className="text-gray-500">Closed</button>
                     </div>
 

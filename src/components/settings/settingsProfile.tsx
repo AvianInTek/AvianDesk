@@ -36,7 +36,7 @@
 
 // settingsProfile
 
-export default function SettingsProfile({ settings, setSettings, isMobile }: any) {
+export default function SettingsProfile({ details, settings, setSettings, isMobile }: any) {
     return (
         <div className="flex-1 px-4 py-2 pt-5 md:px-8 md:py-4">  
             {!isMobile && (
@@ -59,19 +59,19 @@ export default function SettingsProfile({ settings, setSettings, isMobile }: any
             </div>
             <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center text-white text-lg font-semibold">
-                M
+                {details.name?.charAt(0) || '!'}
                 </div>
                 <div className="ml-4">
-                    <h3 className="text-lg font-medium">Akkil M G</h3>
+                    <h3 className="text-lg font-medium">{details.name}</h3>
                     {/* <p className="text-sm text-gray-500">Admin</p> */}
                 </div>
-                <button className="ml-auto bg-gray-200 text-gray-600 text-sm px-4 py-2 rounded">Upload Avatar</button>
+                <button disabled className="ml-auto bg-gray-200 text-gray-600 text-sm px-4 py-2 rounded cursor-not-allowed">Upload Avatar</button>
             </div>
 
             {/* Full Name */}
             <div className="mb-4">
                 <label className="block text-sm text-gray-600">Full Name</label>
-                <input type="text" className="w-full mt-1 p-2 border rounded" value="Akkil M G" readOnly />
+                <input type="text" className="w-full mt-1 p-2 border rounded" value={details.name} readOnly />
             </div>
         </div>
     );

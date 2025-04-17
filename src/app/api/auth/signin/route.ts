@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     const session = await encryptSession({ token: encry, expiresAt });
     cookies().set('session', session, { path: '/', httpOnly: false });
-    return new Response(JSON.stringify({ success: true, session: session }), {
+    return new Response(JSON.stringify({ success: true, session: session, admin: result.admin ? result.admin : false }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });

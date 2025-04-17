@@ -6,7 +6,7 @@ import MainLayout from "@/components/dashboard/main";
 import SideNav from "@/components/dashboard/sideNav";
 import AccountSettings from "@/components/settings/settings";
 import TicketCreate from "@/components/ticket/create";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Dashboard() {
@@ -17,6 +17,38 @@ export default function Dashboard() {
     if (!auth) {
         window.location.href = "/signin";
     }
+
+    const [admin, setAdmin] = useState(false);
+    async function handleAdmin() {
+        try {
+            const res = await fetch('/api/auth/verify', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await res.json();
+            if (data.success) {
+                if (data.admin) {
+                    setAdmin(true);
+                } else {
+                    setAdmin(false);
+                }
+            } else {
+                console.error('Verify failed:', data.message);
+            }
+        } catch (error) {
+            console.error('Error verify out:', error);
+        }
+    }
+
+    useEffect(() => {
+        handleAdmin();
+        if (!admin) {
+            window.location.href = "/tickets";
+        }
+    }, []);
+
     return (
         <>
         {create && (

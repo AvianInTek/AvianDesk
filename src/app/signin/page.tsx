@@ -10,12 +10,37 @@ export default function Signin() {
         "password": ""
     });
     const [video, setVideo] = useState(0);
+    
+    async function handleAdmin() {
+        try {
+            const res = await fetch('/api/auth/verify', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await res.json();
+            if (data.success) {
+                console.log('Admin:', data.admin);
+                if (!data.admin) {
+                    window.location.href = "/tickets";
+                } else {
+                    window.location.href = "/dashboard";
+                }
+            } else {
+                console.error('Verify failed:', data.message);
+            }
+        } catch (error) {
+            console.error('Error verify out:', error);
+        }
+    }
+
     useEffect(() => {
         const handleRefresh = () => {
             setVideo(Math.floor(Math.random() * owner.length));
         };
         if (document.cookie) {
-            redirect("/dashboard");
+            handleAdmin();
         }
         window.addEventListener('load', handleRefresh);
         return () => {
@@ -47,7 +72,7 @@ export default function Signin() {
             });
             const responseData: any = await response.json();
             if (response.ok && responseData.success) {
-                window.location.href = "/dashboard";
+                handleAdmin();
             } else {
                 setError(responseData.message);
             }

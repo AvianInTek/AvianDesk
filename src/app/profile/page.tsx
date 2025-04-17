@@ -3,17 +3,46 @@
 import SideNav from "@/components/dashboard/sideNav";
 import AccountSettings from "@/components/settings/settings";
 import TicketCreate from "@/components/ticket/create";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 
 
 export default function ProfileCard() {
     const [create, setCreate] = useState(false);
     const [settings, setSettings] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const name = "Akkil M G";
-    const username = "AkkilMG";
-    const tickets = '1,234';
-    const closedTickets = '923';
+    const [details, setDetails] = useState(null);
+
+    async function getDetails() {
+        try {
+            const res = await fetch("/api/auth/details", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const data = await res.json();
+            if (data.success) {
+                setDetails(data.details);
+            } else {
+                console.error("details failed:", data.message);
+            }
+        } catch (error) {
+            console.error("Error during details:", error);
+        }
+    }
+
+    useEffect(() => {
+        getDetails();
+    }, []);
+
+    if (!details) {
+        return (
+            <div className="flex h-screen items-center justify-center">
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
     return (
         <>
         {create && (
@@ -40,23 +69,24 @@ export default function ProfileCard() {
                             alt="Background Banner" className="w-full h-full object-cover rounded-t-lg" width={600} height={160} />
                         {/* Profile Image */}
                         <div className="absolute -bottom-12 left-6">
-                            <img src="https://github.com/akkilmg.png" 
-                                alt="Profile" className="w-24 h-24 rounded-full border-4 border-white" />
+                            <div className="w-24 h-24 rounded-full border-4 border-white bg-blue-400 flex items-center justify-center text-white text-6xl font-bold">
+                                {details?.name?.charAt(0).toUpperCase()}
+                            </div>
                         </div>
                     </div>
                     {/* Details */}
                     <div className="pt-14 px-6 pb-6">
-                        <h2 className="text-xl font-bold">{name}</h2>
-                        <p className="text-sm text-gray-600">@{username}<span>🧑‍💻</span></p>
-                        {/* <p className="text-sm text-gray-500 mt-1">🌍 Mangaluru, India</p> */}
+                        <h2 className="text-xl font-bold">{details?.name}</h2>
+                        {/* <p className="text-sm text-gray-600">@{username}<span>🧑‍💻</span></p> */}
+                        <p className="text-sm text-gray-500 mt-1">🌍 Earth</p>
                         
                         {/* Stats */}
                         <div className="flex items-center space-x-4 mt-4">
                             <div className="text-blue-600 font-semibold">
-                            {tickets} <span className="text-gray-600 font-normal">tickets</span>
+                            {details?.tickets || '0'} <span className="text-gray-600 font-normal">tickets</span>
                             </div>
                             <div className="text-blue-600 font-semibold">
-                            {closedTickets} <span className="text-gray-600 font-normal">closed</span>
+                            {details?.closedTickets || '0'} <span className="text-gray-600 font-normal">closed</span>
                             </div>
                         </div>
                 

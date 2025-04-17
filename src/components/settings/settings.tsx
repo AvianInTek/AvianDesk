@@ -39,6 +39,26 @@ export default function AccountSettings({ settings, setSettings }: any) {
   const [account, setAccount] = useState(false);
   const [dangerous, setDangerous] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [details, setDetails] = useState(null);
+
+  async function getDetails() {
+    try {
+      const res = await fetch("/api/auth/details", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setDetails(data.details);
+      } else {
+        console.error("details failed:", data.message);
+      }
+    } catch (error) {
+      console.error("Error during details:", error);
+    }
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,12 +70,25 @@ export default function AccountSettings({ settings, setSettings }: any) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    getDetails();
+  }, []);
+
   const activeComponent = () => {
-    if (profile) return <SettingsProfile settings={settings} setSettings={setSettings} isMobile={isMobile} />;
-    if (account) return <SettingsAccount settings={settings} setSettings={setSettings} isMobile={isMobile} />;
+    if (profile) return <SettingsProfile details={details} settings={settings} setSettings={setSettings} isMobile={isMobile} />;
+    if (account) return <SettingsAccount details={details} settings={settings} setSettings={setSettings} isMobile={isMobile} />;
     if (dangerous) return <SettingsDangerous settings={settings} setSettings={setSettings} isMobile={isMobile} />;
     return null;
   };
+
+  
+  if (!details) {
+    return (
+        <div className="flex h-screen items-center justify-center">
+            <p>Loading...</p>
+        </div>
+    );
+  }
 
   return (
     <div className={`fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 ${settings ? "block" : "hidden"}`} style={{ zIndex: 1000 }}>

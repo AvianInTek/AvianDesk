@@ -25,7 +25,7 @@
 
 // settingsAccount
 
-export default function SettingsAccount({ settings, setSettings, isMobile }: any) {
+export default function SettingsAccount({ details, settings, setSettings, isMobile }: any) {
     return (
         <div className="flex-1 px-4 py-2 pt-5 md:px-8 md:py-4">  
             {!isMobile && (
@@ -50,12 +50,7 @@ export default function SettingsAccount({ settings, setSettings, isMobile }: any
             {/* Email */}
             <div className="mb-4">
                 <label className="block text-sm text-gray-600">Email</label>
-                <input
-                type="text"
-                className="w-full mt-1 p-2 border rounded bg-gray-100 cursor-not-allowed"
-                value="akkilcharanmg@gmail.com"
-                readOnly
-                />
+                <input type="text" className="w-full mt-1 p-2 border rounded bg-gray-100 cursor-not-allowed" value={details.email} readOnly/>
                 <p className="text-xs text-blue-600 mt-1">Please contact the administrator to change your email.</p>
             </div>
         </div>

@@ -1,4 +1,6 @@
+"use client";
 
+import { useEffect, useState } from "react";
 
 export default function SideNav({ create, setCreate, settings, setSettings, isMobileMenuOpen, setIsMobileMenuOpen }: any) {
     return (
@@ -31,13 +33,86 @@ export default function SideNav({ create, setCreate, settings, setSettings, isMo
 }
 
 function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenuOpen, isMobileMenuOpen }: any) {
+    const [details, setDetails] = useState(null);
+
+    async function getDetails() {
+        try {
+            const res = await fetch("/api/auth/details", {
+                method: "GET",
+                headers: {
+                "Content-Type": "application/json",
+                },
+            });
+            const data = await res.json();
+            if (data.success) {
+                setDetails(data.details);
+            } else {
+                console.error("details failed:", data.message);
+            }
+        } catch (error) {
+            console.error("Error during details:", error);
+        }
+    }
+    useEffect(() => {
+        getDetails();
+    }, []);
+
+    const [admin, setAdmin] = useState(false);
+    async function signOut() {
+        try {
+            const res = await fetch('/api/auth/signout', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await res.json();
+            if (data.success) {
+                window.location.href = '/signin';
+            } else {
+                console.error('Sign out failed:', data.message);
+            }
+        } catch (error) {
+            console.error('Error during sign out:', error);
+        }
+    }
+
+    async function handleNav() {
+        try {
+            const res = await fetch('/api/auth/verify', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await res.json();
+            if (data.success) {
+                if (data.admin) {
+                    setAdmin(true);
+                } else {
+                    setAdmin(false);
+                }
+            } else {
+                console.error('Verify failed:', data.message);
+            }
+        } catch (error) {
+            console.error('Error verify out:', error);
+        }
+    }
+
+    useEffect(() => {
+        handleNav();
+    }, []);
+
     return (
         <div>
             <div className="flex items-center justify-between space-x-4">
                 <div className="flex items-center space-x-4">
-                    <img src="https://github.com/akkilmg.png" alt="Profile" className="w-12 h-12 rounded-full" />
+                    <div className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white font-semibold text-lg">
+                        {details?.name?.charAt(0).toUpperCase()}
+                    </div>
                     <div>
-                        <h2 className="font-semibold">Akkil M G</h2>
+                        <h2 className="font-semibold">{details?.name}</h2>
                         <p className="text-sm text-green-500">Online</p>
                     </div>
                 </div>
@@ -57,20 +132,16 @@ function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenu
 
             <nav className="mt-5">
                 <ul>
+                    {admin && (
+                        <li className="mb-4">
+                            <a href="/dashboard" className="flex items-center space-x-2 text-gray-600 hover:text-purple-600">
+                                <img src="/icons/dashboard.svg" className="h-6" />
+                                <span className="text-base">Dashboard</span>
+                            </a>
+                        </li>
+                    )}
                     <li className="mb-4">
-                        <a
-                            href="/dashboard"
-                            className="flex items-center space-x-2 text-gray-600 hover:text-purple-600"
-                        >
-                            <img src="/icons/dashboard.svg" className="h-6" />
-                            <span className="text-base">Dashboard</span>
-                        </a>
-                    </li>
-                    <li className="mb-4">
-                        <a
-                            href="/tickets"
-                            className="flex items-center space-x-2 text-gray-600 hover:text-purple-600"
-                        >
+                        <a href="/tickets" className="flex items-center space-x-2 text-gray-600 hover:text-purple-600">
                             <img src="/icons/ticket.svg" className="h-6" />
                             <span className="text-base">Tickets</span>
                         </a>
@@ -82,22 +153,22 @@ function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenu
                 <h4 className="text-gray-400">Profile & Settings</h4>
                 <ul className="mt-4">
                     <li className="mb-4">
-                        <a
-                            href="/profile"
-                            className="flex items-center space-x-2 text-gray-600 hover:text-purple-600"
-                        >
+                        <a href="/profile" className="flex items-center space-x-2 text-gray-600 hover:text-purple-600">
                             <img src="/icons/profile.svg" className="h-4" />
                             <span className="text-base">Profile</span>
                         </a>
                     </li>
                     <li onClick={() => setSettings(true)} className="mb-4">
-                        <a
-                            href="#"
-                            className="flex items-center space-x-2 text-gray-600 hover:text-purple-600"
-                        >
+                        <a href="#" className="flex items-center space-x-2 text-gray-600 hover:text-purple-600">
                             <img src="/icons/settings.svg" className="h-4" />
                             <span className="text-base">Settings</span>
                         </a>
+                    </li>
+                    <li onClick={signOut} className="mb-4">
+                        <div className="flex items-center space-x-2 text-gray-600 hover:text-purple-600">
+                            <img src="/icons/signout.svg" className="h-4" />
+                            <span className="text-base">SignOut</span>
+                        </div>
                     </li>
                 </ul>
             </div>

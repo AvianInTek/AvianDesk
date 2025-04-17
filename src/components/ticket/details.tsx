@@ -71,7 +71,7 @@ function TicketDetailsAvailable({ data }: any) {
           {data.tags?.map((tag: string, index: number) => (
             <span 
               key={index} 
-              className={`bg-${colorTags[tag] || 'yellow'}-200 text-${colorTags[tag] || 'yellow'}-600 text-xs font-semibold px-2 py-1 rounded-lg capitalize`}
+              className={`${colorTags[tag] ? 'bg-'+colorTags[tag]+'-200' : 'bg-yellow-200'} ${colorTags[tag] ? 'text-'+colorTags[tag]+'-600' : 'text-yellow-600'} text-xs font-semibold px-2 py-1 rounded-lg capitalize`}
             >
               {tag}
             </span>))}
@@ -90,7 +90,8 @@ function TicketDetailsAvailable({ data }: any) {
       <div className="flex items-center space-x-4">
         {data.files?.map((file: Array<any>, index: number) => (
           <div key={index} className={`flex items-center space-x-2 bg-red-50 p-2 rounded-lg border border-${fileColor[file[0]]}-100`}>
-            <img src={`/icons/${file[0]}.svg`} alt={file[0]} className="w-6 h-6" />
+            {/* <img src={`/icons/${file[0]}.svg`} alt={file[0]} className="w-6 h-6" /> */}
+            <span className="text-sm bg-red-200 text-red-700 px-2 py-2 rounded-lg uppercase font-semibold">{file[0]}</span>
             <p className="text-xs font-medium text-red-800">{file[1]} ({sizes[index]})</p>
           </div>
         ))}
