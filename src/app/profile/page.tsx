@@ -10,7 +10,7 @@ export default function ProfileCard() {
     const [create, setCreate] = useState(false);
     const [settings, setSettings] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [details, setDetails] = useState(null);
+    const [details, setDetails] = useState<{ name?: string; tickets?: number; closedTickets?: number } | null>(null);
 
     async function getDetails() {
         try {
