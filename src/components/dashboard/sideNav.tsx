@@ -33,7 +33,11 @@ export default function SideNav({ create, setCreate, settings, setSettings, isMo
 }
 
 function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenuOpen, isMobileMenuOpen }: any) {
-    const [details, setDetails] = useState(null);
+    interface Details {
+        name: string;
+    }
+
+    const [details, setDetails] = useState<Details | null>(null);
 
     async function getDetails() {
         try {
