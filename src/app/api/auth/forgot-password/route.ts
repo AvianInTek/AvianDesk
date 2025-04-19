@@ -1,14 +1,6 @@
 import { encryptCode } from "@/lib/crypto";
 import { getMongoClient } from "@/lib/mongodb";
 
-export async function GET(request: Request) {
-  return new Response(JSON.stringify({ success: false, message:  `Only POST Method is available!` }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-  });
-}
-
-    
 export async function POST(request: Request) {
   try {
     const body = await request.json();

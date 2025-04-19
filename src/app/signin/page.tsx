@@ -110,7 +110,7 @@ export default function Signin() {
                                 <div className="mb-6">
                                     <span className="flex items-center justify-between mb-2 font-sans font-bold text-gray-700 text-sl">
                                         Password
-                                        <a href="/forgot-password" className="font-sans text-sm font-normal text-gray-600 underline cursor-pointer">Forgot?</a>
+                                        {/* <a href="/forgot-password" className="font-sans text-sm font-normal text-gray-600 underline cursor-pointer">Forgot?</a> */}
                                     </span>
                                     <input value={formData.password} onChange={handleChange} id="password" type="password" 
                                     className="w-full px-3 py-2 mb-3 leading-tight text-gray-700 border rounded-lg shadow appearance-none focus:border-indifo-500 h-14 focus:outline-none focus:ring" />

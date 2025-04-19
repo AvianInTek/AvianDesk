@@ -2,11 +2,8 @@
 import { owner } from '@/lib/constants';
 import React, { useEffect, useState } from 'react';
 
-interface ForgotProps {
-    id: string;
-}
-
-export default function Forgot({ id }: ForgotProps) {
+export default function Forgot() {
+    var id = "null";
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({

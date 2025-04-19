@@ -10,6 +10,7 @@ export default function Signup() {
     "password": "",
     "confirmPassword": ""
   });
+  const [accepted, setAccepted] = useState(false);
   const [video, setVideo] = useState(0);
   useEffect(() => {
       setVideo(Math.floor(Math.random() * owner.length));
@@ -28,6 +29,10 @@ export default function Signup() {
         setError(`${key} is required`)
         return;
       }
+    }
+    if (!accepted) {
+      setError("You must accept the terms and conditions")
+      return;
     }
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords don't match")
@@ -97,16 +102,17 @@ export default function Signup() {
                 <input value={formData.confirmPassword} onChange={handleChange} id="confirmPassword" type="password" 
                     placeholder='8+ characters' className="w-full px-3 mb-3 leading-tight text-gray-700 border rounded-lg shadow appearance-none focus:border-indifo-500 h-14 focus:outline-none focus:ring" />
               </div>
-              <div className="flex items-center mb-6">
-                  <input id="agreement" type="checkbox" className="w-6 h-6 bg-gray-100 border-gray-300 rounded" />
+                <div className="flex items-center mb-6">
+                  <input id="agreement" type="checkbox" checked={accepted} onChange={(e) => setAccepted(!accepted)}
+                  className="w-6 h-6 bg-gray-100 border-gray-300 rounded" />
                   <label className="block mt-0 ml-2 text-sm text-gray-900">
-                      I agree with SangrahDB
-                      <span> </span>
-                      <a href="/policy/terms" className="underline">Terms of Service</a>, 
-                      <span> </span>
-                      <a href="/policy/privacy" className="underline">Privacy Policy</a>.
+                    I agree with AvianDesk
+                    <span> </span>
+                    <a href="/policy/terms" className="underline">Terms of Service</a>, 
+                    <span> </span>
+                    <a href="/policy/privacy" className="underline">Privacy Policy</a>.
                   </label>
-              </div>
+                </div>
               { error && (<div className="mb-6">
                 <span className="flex items-center justify-between mb-2 font-sans text-lg font-bold text-red-700">
                   {error}
