@@ -9,12 +9,14 @@ export default function TicketCreate({ create, setCreate }: any) {
     const [subject, setSubject] = useState('');
     const [description, setDescription] = useState('');
     const [attachment, setAttachment] = useState<any>(null);
+    const [uploading, setUploading] = useState(false);
     const [problem, setProblem] = useState('');
     const [product, setProduct] = useState('');
     const [files, setFiles] = useState<any>([]);
     const [error, setError] = useState('');
 
     const uploadAttachment = async (e: any) => {
+        setUploading(true);
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
             setFiles((prevFiles: any) => [...prevFiles, [file.name.split('.')[file.name.split('.').length - 1], file.name, file.size, '']]);
@@ -32,28 +34,32 @@ export default function TicketCreate({ create, setCreate }: any) {
                     .then(async (response: any) => {
                     if (response.data['success'] === true) {
                         setAttachment(response.data['durl'])
+                        setUploading(false);
                         return;
                     } else {
                         console.log("Error: "+response.data['message']);
                         setError('File uploaded not successful.');
+                        setUploading(false);
                         return;
                     }
                     })
                     .catch((error: any) => {
                         console.log('Error uploading file: ' + error.message);
                         setError('File uploaded not successful.');
+                        setUploading(false);
                         return;
                     });
                 setError('File uploaded not successful.');
+                setUploading(false);
                 return
             } catch (error) {
                 setError('File uploaded not successful.');
                 console.log('Error uploading file:' + (error as any).messages);
+                setUploading(false);
                 return
             }
         }
     }
-    console.log(subject, description, attachment, problem, product, files);
     const createTicket = async (e: any) => {
         e.preventDefault();
 
@@ -62,7 +68,10 @@ export default function TicketCreate({ create, setCreate }: any) {
             return;
         }
 
-        console.log(subject, description, attachment, problem, product);
+        if (uploading) {
+            setError('File is uploading, please wait.');
+            return;
+        }
 
         try {
             const config = {
@@ -149,7 +158,7 @@ export default function TicketCreate({ create, setCreate }: any) {
                                 ))}
                             </select>
                             <label htmlFor="attachment" className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-100 cursor-pointer">
-                                <img src="/icons/clip.svg" className="h-5 w-5 pr-2 -ml-2" /> <span className="pr-2">Attachment</span>
+                                <img src={uploading ? "/icons/loading.gif" : "/icons/clip.svg"} className="h-5 w-5 pr-2 -ml-2" /> <span className="pr-2">{uploading ? 'Uploading..' : 'Attachment'}</span>
                                 <input type="file" id="attachment" accept="image/*" className="hidden" onChange={uploadAttachment} />
                             </label>
                         </div>

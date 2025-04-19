@@ -31,7 +31,6 @@ export default function Forgot({ id }: ForgotProps) {
             return;
         }
         password = id;
-        console.log('Password:', password);
     }
 
     return (

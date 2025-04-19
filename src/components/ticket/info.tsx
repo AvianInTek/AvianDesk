@@ -36,7 +36,7 @@ export default function TicketInfo({user}: any) {
     });
     return (
     <>
-    <AccountSettings isPopupVisible={isSettingsVisible} togglePopup={toggleSettings} />
+    <AccountSettings details={userInfo} isPopupVisible={isSettingsVisible} togglePopup={toggleSettings} />
     <div className="space-y-6 gap-3">
         <div className="bg-white border border-gray-200 rounded-lg p-4 px-8 font-bold">
             <div className="flex items-center">

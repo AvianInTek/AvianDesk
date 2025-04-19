@@ -5,6 +5,15 @@ import { ObjectId } from "mongodb";
 import { cookies } from "next/headers";
 
 export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const ticketId = searchParams.get('ticketId');
+  if (!ticketId) {
+    return new Response(JSON.stringify({ success: false, message: "ticketId is required." }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   const sessionCookie = cookies().get('session');
   if (sessionCookie) {
     const session = sessionCookie.value;
@@ -25,42 +34,36 @@ export async function GET(request: Request) {
           headers: { 'Content-Type': 'application/json' }
         });
       }
-      var tickets;
-      if (check.admin) {
-        tickets = await db.collection('tickets').find({ user: data, status: { $in: ['open', 'ignore'] } }).toArray();
-      } else {
-        tickets = await db.collection('tickets').find({ user: data }).toArray();
+      const ticket = await db.collection('tickets').findOne({ _id: new ObjectId(ticketId) });
+      if (!ticket) {
+        return new Response(JSON.stringify({ success: false, message: "Invalid ticket id." }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        });
       }
-      const currentDate = new Date();
-      tickets.forEach(ticket => {
-        ticket.tags = [ticket.product, ticket.status, ticket.problem];
-        const createdAt = new Date(ticket.createdAt);
-        const oneWeekAgo = new Date(currentDate);
-        oneWeekAgo.setDate(currentDate.getDate() - 7);
-        if (createdAt < oneWeekAgo) {
-          ticket.tags.push('ignore');
-        }
-      });
-      if (!tickets) {
-        return new Response(JSON.stringify({ success: false, message: "No tickets found." }), {
+      const comments = await db.collection('comments').find({ ticket: ticketId }).sort({ order: 1 }).toArray();
+      if (!comments) {
+        return new Response(JSON.stringify({ success: false, message: "No comment found." }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' }
         });
       }
-      const ticketData = tickets.map(ticket => {
-        return {
-          _id: ticket._id.toString(),
-          user: check.name,
-          subject: ticket.subject,
-          description: ticket.description,
-          attachment: ticket.attachment,
-          files: ticket.files,
-          createdAt: ticket.createdAt,
-          tags: ticket.tags,
-          status: ticket.status,
-        };
-      });
-      return new Response(JSON.stringify({ success: true, tickets: ticketData }), {
+
+      for (const comment of comments) {
+        comment.createdAt = new Date(comment.createdAt).toLocaleString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        const user = await db.collection('users').findOne(
+          { _id: new ObjectId(comment.user) },
+          { projection: { name: 1, _id: 1 } }
+        );
+        comment.user = user;
+      }
+      return new Response(JSON.stringify({ success: true, comments: comments }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
@@ -85,7 +88,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
     // Parse the request body
     const body = await request.json();
-    const { subject, description, attachment, problem, product, files } = body;
+    const { comment, ticketId } = body;
     const db = await getMongoClient();
     const sessionCookie = cookies().get('session');
     if (!sessionCookie) {
@@ -104,15 +107,27 @@ export async function POST(request: Request) {
     }
     if (decryptedSession && typeof decryptedSession.token === 'string') {
       var data = await decrypt(decryptedSession.token);
-      var result = await db.collection('tickets').insertOne({
-        subject: subject,
-        description: description,
-        attachment: attachment,
-        problem: problem.toLowerCase(),
-        product: product.toLowerCase(),
+      
+      const ticket = await db.collection('tickets').findOne({ _id: new ObjectId(ticketId) });
+      if (!ticket) {
+        return new Response(JSON.stringify({ success: false, message: "Invalid ticket id." }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      if (ticket.status === 'closed') {
+        return new Response(JSON.stringify({ success: false, message: "Ticket is closed." }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      
+      var finder = await db.collection('comments').find({ ticket: ticket }).toArray();
+      var result = await db.collection('comments').insertOne({
+        comment: comment,
+        ticket: ticket,
         user: data,
-        files: files,
-        status: 'open',
+        order: finder.length + 1,
         createdAt: new Date(),
       });
       if (!result) {
@@ -132,4 +147,3 @@ export async function POST(request: Request) {
       });
     }
 }
-

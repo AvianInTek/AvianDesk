@@ -57,7 +57,6 @@ function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenu
         getDetails();
     }, []);
 
-    const [admin, setAdmin] = useState(false);
     async function signOut() {
         try {
             const res = await fetch('/api/auth/signout', {
@@ -77,6 +76,7 @@ function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenu
         }
     }
 
+    const [admin, setAdmin] = useState(false);
     async function handleNav() {
         try {
             const res = await fetch('/api/auth/verify', {

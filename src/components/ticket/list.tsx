@@ -3,7 +3,7 @@ import { useState } from "react";
 import TicketItem from "./ticketItem";
 
 
-export default function TicketsLists({data, setTicketId, isMobileMenuOpen, setIsMobileMenuOpen}: any) {
+export default function TicketsLists({data, setFetchComment, setTicketId, isMobileMenuOpen, setIsMobileMenuOpen}: any) {
 
     const [filter, setFilter] = useState(false);
     const [search, setSearch] = useState("");
@@ -31,7 +31,7 @@ export default function TicketsLists({data, setTicketId, isMobileMenuOpen, setIs
                     {/* Below advanced filter */}
                     <div className="flex items-center space-x-2 mt-4">
                         <button className="text-blue-500 font-medium">All</button>
-                        <button className="text-gray-500 ">Open</button>
+                        <button className="text-gray-500">Open</button>
                         <button className="text-gray-500">Closed</button>
                     </div>
 
@@ -54,6 +54,7 @@ export default function TicketsLists({data, setTicketId, isMobileMenuOpen, setIs
                                 createdAt={ticket.createdAt}
                                 tags={ticket.tags}
                                 setTicketId={setTicketId}
+                                setFetchComment={setFetchComment}
                             />
                         ))}
                     </div>

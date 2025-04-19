@@ -34,31 +34,11 @@ import SettingsAccount from "./settingsAccount";
 import SettingsProfile from "./settingsProfile";
 import SettingsDangerous from "./settingsDangerous";
 
-export default function AccountSettings({ settings, setSettings }: any) {
+export default function AccountSettings({ details, settings, setSettings }: any) {
   const [profile, setProfile] = useState(true);
   const [account, setAccount] = useState(false);
   const [dangerous, setDangerous] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [details, setDetails] = useState(null);
-
-  async function getDetails() {
-    try {
-      const res = await fetch("/api/auth/details", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      if (data.success) {
-        setDetails(data.details);
-      } else {
-        console.error("details failed:", data.message);
-      }
-    } catch (error) {
-      console.error("Error during details:", error);
-    }
-  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -69,10 +49,7 @@ export default function AccountSettings({ settings, setSettings }: any) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    getDetails();
-  }, []);
+  
 
   const activeComponent = () => {
     if (profile) return <SettingsProfile details={details} settings={settings} setSettings={setSettings} isMobile={isMobile} />;
@@ -81,17 +58,10 @@ export default function AccountSettings({ settings, setSettings }: any) {
     return null;
   };
 
-  
-  if (!details) {
-    return (
-        <div className="flex h-screen items-center justify-center">
-            <p>Loading...</p>
-        </div>
-    );
-  }
 
   return (
-    <div className={`fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 ${settings ? "block" : "hidden"}`} style={{ zIndex: 1000 }}>
+    <>
+      <div className={`fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 ${settings ? "block" : "hidden"}`} style={{ zIndex: 1000 }}>
       <div className="flex w-screen h-screen p-4 md:p-12 rounded-md">
         <div className="flex flex-col md:flex-row w-full h-full rounded-2xl bg-white">
           {isMobile ? (
@@ -110,5 +80,7 @@ export default function AccountSettings({ settings, setSettings }: any) {
         </div>
       </div>
     </div>
+    </>
+    
   );
 }

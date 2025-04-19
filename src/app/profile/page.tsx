@@ -36,11 +36,16 @@ export default function ProfileCard() {
     }, []);
 
     if (!details) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <p>Loading...</p>
+        return <div className="flex h-screen items-center justify-center bg-gray-100">
+            <div className="text-center">
+                <div className="mt-4">
+                    <svg className="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                </div>
             </div>
-        );
+        </div>
     }
 
     return (
@@ -49,9 +54,10 @@ export default function ProfileCard() {
             <TicketCreate create={create} setCreate={setCreate} />  
         )}
         { 
-            <AccountSettings settings={settings} setSettings={setSettings} />
+            <AccountSettings details={details} settings={settings} setSettings={setSettings} />
         }
-        <div className="flex h-screen">
+        
+        {details && (<div className="flex h-screen">
             
             {/* Sidebar */}
             <div className="2xl:w-1/5 xl:w-1/5 md:w-1/4 shadow-xl">
@@ -70,13 +76,13 @@ export default function ProfileCard() {
                         {/* Profile Image */}
                         <div className="absolute -bottom-12 left-6">
                             <div className="w-24 h-24 rounded-full border-4 border-white bg-blue-400 flex items-center justify-center text-white text-6xl font-bold">
-                                {details?.name?.charAt(0).toUpperCase()}
+                                {details?.name?.charAt(0).toUpperCase() || '!'}
                             </div>
                         </div>
                     </div>
                     {/* Details */}
                     <div className="pt-14 px-6 pb-6">
-                        <h2 className="text-xl font-bold">{details?.name}</h2>
+                        <h2 className="text-xl font-bold">{details?.name || 'Mr. X'}</h2>
                         {/* <p className="text-sm text-gray-600">@{username}<span>🧑‍💻</span></p> */}
                         <p className="text-sm text-gray-500 mt-1">🌍 Earth</p>
                         
@@ -98,7 +104,7 @@ export default function ProfileCard() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>)}
         </>
     );
 }

@@ -49,13 +49,37 @@ export default function Dashboard() {
         }
     }, []);
 
+    const [details, setDetails] = useState(null);
+    
+      async function getDetails() {
+        try {
+          const res = await fetch("/api/auth/details", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const data = await res.json();
+          if (data.success) {
+            setDetails(data.details);
+          } else {
+            console.error("details failed:", data.message);
+          }
+        } catch (error) {
+          console.error("Error during details:", error);
+        }
+      }
+      useEffect(() => {
+        getDetails();
+      }, []);
+
     return (
         <>
         {create && (
             <TicketCreate create={create} setCreate={setCreate} />  
         )}
         { 
-            <AccountSettings settings={settings} setSettings={setSettings} />
+            <AccountSettings details={details} settings={settings} setSettings={setSettings} />
         }
         <div className="flex h-screen">
             <div className="2xl:w-1/5 xl:w-1/5 md:w-1/4 shadow-xl">

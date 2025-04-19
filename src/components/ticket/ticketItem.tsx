@@ -5,7 +5,7 @@ import { time } from "console";
 import { useState, useEffect } from "react";
 
 
-export default function TicketItem({id, subject, description, createdAt, tags, setTicketId}: any) {
+export default function TicketItem({id, setFetchComment, subject, description, createdAt, tags, setTicketId}: any) {
     const [timesAgo, setTimesAgo] = useState('');
     const [shortDescription, setShortDescription] = useState('');
     useEffect(() => {
@@ -28,7 +28,10 @@ export default function TicketItem({id, subject, description, createdAt, tags, s
     }, [createdAt]);
 
     return (
-        <div className="p-4 border-l-4 border-blue-500 bg-blue-50 rounded-lg mb-4" onClick={(e) => setTicketId(id)}>
+        <div className="p-4 border-l-4 border-blue-500 bg-blue-50 rounded-lg mb-4" onClick={(e) => {
+                setTicketId(id);
+                setFetchComment([]);
+            }}>
             <div className="flex justify-between">
                 <p className="font-medium text-sm text-gray-800">{subject}</p>
                 <p className="text-xs text-gray-500">{timesAgo}</p>
@@ -36,12 +39,7 @@ export default function TicketItem({id, subject, description, createdAt, tags, s
             <p className="line-clamp-1 text-xs text-gray-600">{shortDescription}</p>
             <div className="flex items-center space-x-2 mt-2">
                 {tags.map((tag: string, index: number) => {
-                    return (
-                        <span key={index} 
-                            className={`${colorTags[tag]? 'bg-'+colorTags[tag]+'-200' : 'bg-yellow-200'} ${colorTags[tag]? 'text-'+colorTags[tag]+'-600' : 'text-yellow-600'} text-xs font-semibold px-2 py-1 rounded-lg capitalize`}>
-                            {tag}
-                        </span>
-                    );
+                    return colorTags(tag, index)
                 })}
             </div>
         </div>

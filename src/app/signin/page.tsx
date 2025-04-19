@@ -21,7 +21,6 @@ export default function Signin() {
             });
             const data = await res.json();
             if (data.success) {
-                console.log('Admin:', data.admin);
                 if (!data.admin) {
                     window.location.href = "/tickets";
                 } else {
