@@ -62,7 +62,7 @@ export default function SettingsProfile({ details, settings, setSettings, isMobi
                 {details?.name ? details.name?.charAt(0) : '!'}
                 </div>
                 <div className="ml-4">
-                    <h3 className="text-lg font-medium">{details?.name ? details.name : 'Mr. X'}</h3>
+                    <h3 className="text-lg font-medium">{details?.name ? details.name : 'Mr. Customer'}</h3>
                     {/* <p className="text-sm text-gray-500">Admin</p> */}
                 </div>
                 <button disabled className="ml-auto bg-gray-200 text-gray-600 text-sm px-4 py-2 rounded cursor-not-allowed">Upload Avatar</button>

@@ -82,7 +82,7 @@ export default function ProfileCard() {
                     </div>
                     {/* Details */}
                     <div className="pt-14 px-6 pb-6">
-                        <h2 className="text-xl font-bold">{details?.name ? details?.name : 'Mr. X'}</h2>
+                        <h2 className="text-xl font-bold">{details?.name ? details?.name : 'Mr. Customer'}</h2>
                         {/* <p className="text-sm text-gray-600">@{username}<span>🧑‍💻</span></p> */}
                         <p className="text-sm text-gray-500 mt-1">🌍 Earth</p>
                         

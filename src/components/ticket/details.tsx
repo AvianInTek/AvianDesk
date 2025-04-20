@@ -161,7 +161,7 @@ function TicketDetailsAvailable({ fetchComment, data, userInfo }: any) {
 
         <div>
           <p className="text-sm text-gray-800">
-            <span className="font-semibold">{userInfo?.name ? userInfo.name : 'Mr. X'}</span> | <span className="text-gray-500">{timing || 'Someday'}</span>
+            <span className="font-semibold">{userInfo?.name ? userInfo.name : 'Mr. Customer'}</span> | <span className="text-gray-500">{timing || 'Someday'}</span>
           </p>
           <div className="mt-4 text-sm text-gray-600 max-h-32 overflow-y-auto pr-2">
             {data.description}
@@ -217,7 +217,7 @@ function TicketDetailsAvailable({ fetchComment, data, userInfo }: any) {
                     <div className="flex flex-col w-full">
                       <div className="flex justify-between w-full items-center">
                         <p className="text-sm font-semibold text-gray-800">
-                        {comment?.user?.name ? comment.user.name : 'Mr. X'}
+                        {comment?.user?.name ? comment.user.name : 'Mr. Customer'}
                         </p>
                         <p className="text-xs text-gray-500 pl-2">
                         {comment.createdAt}

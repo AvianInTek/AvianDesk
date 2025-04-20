@@ -116,7 +116,7 @@ function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenu
                         {details?.name ? details?.name?.charAt(0).toUpperCase() : '!'}
                     </div>
                     <div>
-                        <h2 className="font-semibold">{details?.name ? details?.name : 'Mr. X'}</h2>
+                        <h2 className="font-semibold">{details?.name ? details?.name : 'Mr. Customer'}</h2>
                         <p className="text-sm text-green-500">Online</p>
                     </div>
                 </div>
