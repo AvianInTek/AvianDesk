@@ -30,9 +30,9 @@ export default function TicketsLists({data, setFetchComment, setTicketId, isMobi
                     </div>
                     {/* Below advanced filter */}
                     <div className="flex items-center space-x-2 mt-4">
-                        <button className="text-blue-500 font-medium">All</button>
-                        <button className="text-gray-500">Open</button>
-                        <button className="text-gray-500">Closed</button>
+                        <button className="text-white bg-blue-500 font-medium py-1 px-4 rounded-3xl border-2 border-blue-500 hover:text-white hover:bg-blue-700">All</button>
+                        <button className="text-gray-500 py-1 px-2 rounded-3xl border-2 border-gray-500 hover:text-white hover:bg-blue-500">Open</button>
+                        <button className="text-gray-500 py-1 px-2 rounded-3xl border-2 border-gray-500 hover:text-white hover:bg-blue-500">Closed</button>
                     </div>
 
                     
