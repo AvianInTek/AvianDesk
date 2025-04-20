@@ -2,9 +2,12 @@ import { encrypt, encryptCode } from "@/lib/crypto";
 import { getMongoClient } from "@/lib/mongodb";
 import { encryptSession } from "@/lib/session";
 import { cookies } from "next/headers";
+import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
-  return new Response(JSON.stringify({success: false, message: `Only POST Method is available!`}), {
+  return NextResponse.json({success: false, message: `Only POST Method is available!`}, {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   });
@@ -16,7 +19,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { email, password } = body;
     if (!email || !password) {
-      return new Response(JSON.stringify({ success: false, message: 'Invalid input' }), {
+      return NextResponse.json({ success: false, message: 'Invalid input' }, {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
@@ -28,13 +31,13 @@ export async function POST(request: Request) {
       password: hashPassword
     });
     if (!result) {
-      return new Response(JSON.stringify({ success: false, message: 'Invalid credentials' }), {
+      return NextResponse.json({ success: false, message: 'Invalid credentials' }, {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
     }
     // if (!result.verify) {
-    //   return new Response(JSON.stringify({ success: false, message: 'Email not verified.' }), {
+    //   return NextResponse.json({ success: false, message: 'Email not verified.' }), {
     //     status: 401,
     //     headers: { 'Content-Type': 'application/json' }
     //   });
@@ -44,7 +47,7 @@ export async function POST(request: Request) {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     const session = await encryptSession({ token: encry, expiresAt });
     cookies().set('session', session, { path: '/', httpOnly: false });
-    return new Response(JSON.stringify({ success: true, session: session, admin: result.admin ? result.admin : false }), {
+    return NextResponse.json({ success: true, session: session, admin: result.admin ? result.admin : false }, {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -52,7 +55,7 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error('Error saving user data:', error);
-    return new Response(JSON.stringify({ success: false, message: `Something went wrong.` }), {
+    return NextResponse.json({ success: false, message: `Something went wrong.` }, {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

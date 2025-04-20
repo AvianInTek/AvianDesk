@@ -12,6 +12,7 @@ export default function NoRightClick() {
     const handleSelectStart = (e: Event) => {
       e.preventDefault();
     };
+    
 
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('selectstart', handleSelectStart);

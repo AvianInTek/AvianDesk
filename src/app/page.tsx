@@ -1,22 +1,26 @@
 "use client";
 
-import Lottie from "lottie-react";
-import Welcome from "@/assets/lottie/welcome.json";
-import Loading from "@/assets/lottie/loading.json";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
+import dynamic from "next/dynamic";
 
+const Lottie = dynamic(
+  () => import("lottie-react"),
+  { ssr: false }
+);
 
 export default function Home() {
   useEffect(() => {
-    // after 4 seconds, redirect to login page
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       window.location.href = "/signin";
     }, 7500);
-  });
+
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
     <div className="flex justify-center items-center h-screen flex-col">
       <div className="w-1/2">
-        <Lottie loop={false} autoplay={true} animationData={Welcome} />
+        <Lottie loop={false} autoplay={true} animationData={require("@/assets/lottie/welcome.json")} />
       </div>
     </div>
   );

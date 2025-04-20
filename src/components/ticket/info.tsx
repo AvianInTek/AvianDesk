@@ -81,7 +81,7 @@ export default function TicketInfo({user}: any) {
                         <div className="text-base font-medium space-y-2 text-gray-700">
                             <div className="flex justify-between">
                                 <span className="text-gray-400">Name:</span>
-                                <span>{userInfo.name}</span>
+                                <span>{userInfo?.name ? userInfo.name : 'Mr. X'}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-400">Email:</span>

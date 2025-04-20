@@ -1,8 +1,14 @@
 "use client";
 import { owner } from '@/lib/constants';
 import React, { useEffect, useState } from 'react';
-import Lottie from "lottie-react";
 import Completed from "@/assets/lottie/completed.json";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(
+  () => import("lottie-react"),
+  { ssr: false }
+);
+
 
 export default function ForgotPasswordForm() {
     const [error, setError] = useState("");

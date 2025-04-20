@@ -70,7 +70,7 @@ function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenu
                 },
             });
             const data = await res.json();
-            if (data.success) {
+            if (data.success && typeof window !== "undefined") {
                 window.location.href = '/signin';
             } else {
                 console.error('Sign out failed:', data.message);
@@ -113,10 +113,10 @@ function MenuContent({ create, setCreate, settings, setSettings, setIsMobileMenu
             <div className="flex items-center justify-between space-x-4">
                 <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white font-semibold text-lg">
-                        {details?.name?.charAt(0).toUpperCase()}
+                        {details?.name ? details?.name?.charAt(0).toUpperCase() : '!'}
                     </div>
                     <div>
-                        <h2 className="font-semibold">{details?.name}</h2>
+                        <h2 className="font-semibold">{details?.name ? details?.name : 'Mr. X'}</h2>
                         <p className="text-sm text-green-500">Online</p>
                     </div>
                 </div>

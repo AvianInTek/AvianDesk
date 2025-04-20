@@ -20,7 +20,7 @@ export default function Signin() {
                 },
             });
             const data = await res.json();
-            if (data.success) {
+            if (data.success && typeof window !== "undefined") {
                 if (!data.admin) {
                     window.location.href = "/tickets";
                 } else {
@@ -38,7 +38,7 @@ export default function Signin() {
         const handleRefresh = () => {
             setVideo(Math.floor(Math.random() * owner.length));
         };
-        if (document.cookie) {
+        if (typeof document !== 'undefined' && document.cookie) {
             handleAdmin();
         }
         window.addEventListener('load', handleRefresh);

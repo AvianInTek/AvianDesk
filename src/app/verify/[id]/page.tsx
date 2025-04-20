@@ -19,7 +19,7 @@ export default function Verify({ params }: { params: { id: string } }) {
                     body: JSON.stringify({ id: id }),
                 });
                 const responseData: any = await response.json();
-                if (response.ok && responseData.success) {
+                if (response.ok && responseData.success && typeof window !== "undefined") {
                     setCompleted(true);
                     // after 5 seconds, redirect to login page
                     setTimeout(() => {

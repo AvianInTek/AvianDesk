@@ -90,7 +90,7 @@ function TicketDetailsAvailable({ fetchComment, data, userInfo }: any) {
           }),
       });
       const datax = await res.json();
-      if (datax.success) {
+      if (datax.success && typeof window !== "undefined") {
           window.location.href = '/tickets';
       } else {
           console.error("details failed:", data.message);
@@ -139,7 +139,7 @@ function TicketDetailsAvailable({ fetchComment, data, userInfo }: any) {
         <div>
           <div className="flex items-center justify-between space-x-2">
             <div className="flex items-center space-x-2">
-              <button onClick={() => window.location.href = '/tickets'} className="focus:outline-none p-1 mt-1">
+              <button onClick={() => {if (typeof window !== "undefined") window.location.href = '/tickets'}} className="focus:outline-none p-1 mt-1">
                 <img src="/icons/back.svg" alt="Back" className="w-8 h-8" />
               </button>
               <h2 className="text-xl font-semibold text-gray-800">
@@ -161,7 +161,7 @@ function TicketDetailsAvailable({ fetchComment, data, userInfo }: any) {
 
         <div>
           <p className="text-sm text-gray-800">
-            <span className="font-semibold">{userInfo.name || 'Mr. X'}</span> | <span className="text-gray-500">{timing || 'Someday'}</span>
+            <span className="font-semibold">{userInfo?.name ? userInfo.name : 'Mr. X'}</span> | <span className="text-gray-500">{timing || 'Someday'}</span>
           </p>
           <div className="mt-4 text-sm text-gray-600 max-h-32 overflow-y-auto pr-2">
             {data.description}
@@ -181,7 +181,7 @@ function TicketDetailsAvailable({ fetchComment, data, userInfo }: any) {
           <p className="font-semibold text-sm text-gray-700 mb-2">Reply to:</p>
           <div className="flex items-start space-x-2 mb-4">
             <div className="w-10 h-10 px-4 rounded-full border-4 border-white bg-blue-400 flex items-center justify-center text-white text-lg font-semibold">
-              {userInfo.name?.charAt(0).toUpperCase() || '!'}
+              {userInfo?.name ? userInfo.name?.charAt(0).toUpperCase() : '!'}
             </div>
             <div className="w-full bg-gray-50 border border-gray-300 rounded-lg">
               <div className="p-2 flex justify-between">
@@ -212,12 +212,12 @@ function TicketDetailsAvailable({ fetchComment, data, userInfo }: any) {
                 <div className="flex justify-between items-start mb-1">
                   <div className="flex items-center">
                     <div className="w-8 h-8 px-4 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-semibold mr-3 overflow-hidden">
-                    {comment.user.name?.charAt(0).toUpperCase() || '!'}
+                    {comment?.user?.name ? comment.user.name?.charAt(0).toUpperCase() : '!'}
                     </div>
                     <div className="flex flex-col w-full">
                       <div className="flex justify-between w-full items-center">
                         <p className="text-sm font-semibold text-gray-800">
-                        {comment.user.name}
+                        {comment?.user?.name ? comment.user.name : 'Mr. X'}
                         </p>
                         <p className="text-xs text-gray-500 pl-2">
                         {comment.createdAt}

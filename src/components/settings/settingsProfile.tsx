@@ -59,10 +59,10 @@ export default function SettingsProfile({ details, settings, setSettings, isMobi
             </div>
             <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center text-white text-lg font-semibold">
-                {details.name?.charAt(0) || '!'}
+                {details?.name ? details.name?.charAt(0) : '!'}
                 </div>
                 <div className="ml-4">
-                    <h3 className="text-lg font-medium">{details.name}</h3>
+                    <h3 className="text-lg font-medium">{details?.name ? details.name : 'Mr. X'}</h3>
                     {/* <p className="text-sm text-gray-500">Admin</p> */}
                 </div>
                 <button disabled className="ml-auto bg-gray-200 text-gray-600 text-sm px-4 py-2 rounded cursor-not-allowed">Upload Avatar</button>
@@ -71,7 +71,7 @@ export default function SettingsProfile({ details, settings, setSettings, isMobi
             {/* Full Name */}
             <div className="mb-4">
                 <label className="block text-sm text-gray-600">Full Name</label>
-                <input type="text" className="w-full mt-1 p-2 border rounded" value={details.name} readOnly />
+                <input type="text" className="w-full mt-1 p-2 border rounded" value={details?.name ? details.name : 'Unknown'} readOnly />
             </div>
         </div>
     );

@@ -76,13 +76,13 @@ export default function ProfileCard() {
                         {/* Profile Image */}
                         <div className="absolute -bottom-12 left-6">
                             <div className="w-24 h-24 rounded-full border-4 border-white bg-blue-400 flex items-center justify-center text-white text-6xl font-bold">
-                                {details?.name?.charAt(0).toUpperCase() || '!'}
+                                {details?.name ? details?.name?.charAt(0).toUpperCase() : '!'}
                             </div>
                         </div>
                     </div>
                     {/* Details */}
                     <div className="pt-14 px-6 pb-6">
-                        <h2 className="text-xl font-bold">{details?.name || 'Mr. X'}</h2>
+                        <h2 className="text-xl font-bold">{details?.name ? details?.name : 'Mr. X'}</h2>
                         {/* <p className="text-sm text-gray-600">@{username}<span>🧑‍💻</span></p> */}
                         <p className="text-sm text-gray-500 mt-1">🌍 Earth</p>
                         

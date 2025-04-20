@@ -46,7 +46,7 @@ export default function Signup() {
         body: JSON.stringify(formData),
       });
       const responseData: any = await response.json();
-      if (response.ok && responseData.success) {
+      if (response.ok && responseData.success && typeof window !== "undefined") {
         window.location.href = "/signin";
       } else {
         setError(responseData.message);

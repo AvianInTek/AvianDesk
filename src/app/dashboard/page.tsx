@@ -14,9 +14,11 @@ export default function Dashboard() {
     const [settings, setSettings] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const auth = true;
-    if (!auth) {
-        window.location.href = "/signin";
-    }
+    useEffect(() => {
+        if (!auth) {
+            window.location.href = "/signin";
+        }
+    }, [auth]);
 
     const [admin, setAdmin] = useState(false);
     async function handleAdmin() {
@@ -44,7 +46,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         handleAdmin();
-        if (!admin) {
+        if (typeof window !== "undefined" && !admin) {
             window.location.href = "/tickets";
         }
     }, []);

@@ -1,10 +1,14 @@
 import { cookies } from "next/headers";
+import { NextResponse } from 'next/server';
+
+
+export const dynamic = 'force-dynamic';
 
    
 export async function GET(request: Request) {
   try {
     cookies().delete('session');
-    return new Response(JSON.stringify({ success: true }), {
+    return NextResponse.json({ success: true }, {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -12,7 +16,7 @@ export async function GET(request: Request) {
 
   } catch (error) {
     console.error('Error during signout data:', error);
-    return new Response(JSON.stringify({ success: false, message: `Something went wrong.` }), {
+    return NextResponse.json({ success: false, message: `Something went wrong.` }, {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

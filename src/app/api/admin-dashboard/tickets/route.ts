@@ -3,6 +3,9 @@ import { getMongoClient } from "@/lib/mongodb";
 import { decryptSession } from "@/lib/session";
 import { ObjectId } from "mongodb";
 import { cookies } from "next/headers";
+import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   const sessionCookie = cookies().get('session');
@@ -10,7 +13,7 @@ export async function GET(request: Request) {
     const session = sessionCookie.value;
     const decryptedSession = await decryptSession(session);
     if (!decryptedSession) {
-      return new Response(JSON.stringify({ success: false, message: "failed to fetch." }), {
+      return NextResponse.json({ success: false, message: "failed to fetch." }, {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
@@ -20,14 +23,14 @@ export async function GET(request: Request) {
       const db = await getMongoClient();
       const check = await db.collection('users').findOne({ _id: new ObjectId(data) });
       if (!check) {
-        return new Response(JSON.stringify({ success: false, message: "Invalid session token." }), {
+        return NextResponse.json({ success: false, message: "Invalid session token." }, {
           status: 401,
           headers: { 'Content-Type': 'application/json' }
         });
       }
 
       if (!check.admin) {
-        return new Response(JSON.stringify({ success: false, message: "User is not an admin." }), {
+        return NextResponse.json({ success: false, message: "User is not an admin." }, {
           status: 401,
           headers: { 'Content-Type': 'application/json' }
         });
@@ -44,7 +47,7 @@ export async function GET(request: Request) {
         }
       });
       if (!tickets) {
-        return new Response(JSON.stringify({ success: false, message: "No tickets found." }), {
+        return NextResponse.json({ success: false, message: "No tickets found." }, {
           status: 200,
           headers: { 'Content-Type': 'application/json' }
         });
@@ -61,13 +64,13 @@ export async function GET(request: Request) {
           tags: ticket.tags
         };
       });
-      return new Response(JSON.stringify({ success: true, tickets: ticketData }), {
+      return NextResponse.json({ success: true, tickets: ticketData }, {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
     } else {
       console.log('Invalid decrypted session or token');
-      return new Response(JSON.stringify({ success: false, message: "Invalid session token." }), {
+      return NextResponse.json({ success: false, message: "Invalid session token." }, {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
@@ -75,7 +78,7 @@ export async function GET(request: Request) {
     
   } else {
     console.log('No session cookie found');
-    return new Response(JSON.stringify({success: false, message: "User has not logged in."}), {
+    return NextResponse.json({success: false, message: "User has not logged in."}, {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -88,7 +91,7 @@ export async function POST(request: Request) {
   const db = await getMongoClient();
   const sessionCookie = cookies().get('session');
   if (!sessionCookie) {
-    return new Response(JSON.stringify({ success: false, message: "User session is not available." }), {
+    return NextResponse.json({ success: false, message: "User session is not available." }, {
       status: 401,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -96,7 +99,7 @@ export async function POST(request: Request) {
   const session = sessionCookie.value;
   const decryptedSession = await decryptSession(session);
   if (!decryptSession) {
-    return new Response(JSON.stringify({ success: false, message: "failed to fetch." }), {
+    return NextResponse.json({ success: false, message: "failed to fetch." }, {
       status: 401,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -105,25 +108,25 @@ export async function POST(request: Request) {
     var data = await decrypt(decryptedSession.token);
     var user = await db.collection('users').findOne({ _id: new ObjectId(data) });
     if (!user) {
-      return new Response(JSON.stringify({ success: false, message: "Invalid session token." }), {
+      return NextResponse.json({ success: false, message: "Invalid session token." }, {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
     if (!user.admin) {
-      return new Response(JSON.stringify({ success: false, message: "User is not an admin." }), {
+      return NextResponse.json({ success: false, message: "User is not an admin." }, {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
     }
     await db.collection('tickets').updateOne({ _id: new ObjectId(ticketId) }, { $set: { status: 'closed' } });
-    return new Response(JSON.stringify({ success: true }), {
+    return NextResponse.json({ success: true }, {
       status: 201,
       headers: { 'Content-Type': 'application/json' }
     });
   } else {
-    return new Response(JSON.stringify({ success: false, message: "Invalid session token." }), {
+    return NextResponse.json({ success: false, message: "Invalid session token." }, {
       status: 401,
       headers: { 'Content-Type': 'application/json' }
     });
